@@ -1,0 +1,139 @@
+MEDITRIAGE AI — COMPLETE TECH STACK Tagline: Right Care, Right Time
+
+PROJECT GOAL Build a responsive healthcare triage and
+patient-registration platform with a patient portal, hospital staff
+dashboard, secure medical records, preliminary urgency categories, and
+optional AI-assisted summaries.
+
+1.  AI DEVELOPMENT
+
+-   Antigravity: AI-assisted coding, implementation, debugging, and
+    testing.
+
+2.  FRONTEND
+
+-   React: UI framework.
+-   TypeScript: Type-safe application code.
+-   Vite: Development server and build tool.
+-   Tailwind CSS: Responsive styling.
+-   shadcn/ui: Reusable UI components.
+-   Lucide React: Icons.
+-   Framer Motion: Optional subtle animations.
+-   React Router: Page navigation.
+-   React Hook Form: Form state and submission.
+-   Zod: Input validation.
+-   @hookform/resolvers: Connect Zod to React Hook Form.
+-   TanStack Query: Server-state fetching, caching, and refreshing.
+-   Recharts: Dashboard charts.
+-   date-fns: Date and time formatting.
+
+3.  BACKEND AND DATA
+
+-   Supabase: Managed backend platform.
+-   PostgreSQL: Relational database.
+-   Supabase Auth: Authentication.
+-   PostgreSQL Row-Level Security (RLS): Record-level authorization.
+-   Supabase Edge Functions: Trusted server-side business logic and API
+    integrations.
+-   Supabase Realtime: Live dashboard updates.
+-   Supabase Storage: Private medical-document storage.
+-   SQL migrations: Versioned database schema changes.
+
+4.  OPTIONAL AI AND NOTIFICATIONS
+
+-   Gemini API: Optional symptom summarization and structured
+    information extraction.
+-   Resend: Optional email notifications.
+-   In-app notifications: Visible staff alerts.
+-   Web Audio API: Optional staff-enabled audible alerts; never rely on
+    sound alone.
+
+5.  TESTING AND CODE QUALITY
+
+-   Vitest: Unit tests.
+-   React Testing Library: Component tests.
+-   Playwright: End-to-end browser tests.
+-   ESLint: Static code checks.
+-   Prettier: Consistent formatting.
+-   Sentry (optional): Production error monitoring.
+
+6.  VERSION CONTROL AND DEPLOYMENT
+
+-   Git: Local version control.
+-   GitHub: Remote repository and collaboration.
+-   Vercel: Frontend deployment.
+-   Supabase: Managed database, authentication, storage, and server-side
+    functions.
+
+7.  SUGGESTED DATABASE TABLES
+
+-   profiles: User profiles, roles, and staff details.
+-   patients: Patient identity and UHID.
+-   encounters: Separate record for each visit.
+-   vital_signs: Blood pressure, SpO2, pulse, and blood sugar readings.
+-   symptoms: Reported symptoms and duration.
+-   medical_history: Conditions, allergies, and medications.
+-   medical_documents: Private file metadata and storage paths.
+-   triage_assessments: Preliminary category, rule version, and review
+    status.
+-   alerts: Priority, creation time, acknowledgement, and escalation.
+-   audit_logs: Record access and modifications.
+
+8.  SYSTEM ARCHITECTURE React + TypeScript + Vite frontend -> Supabase
+    Auth and access policies -> Supabase Edge Functions for trusted
+    operations -> PostgreSQL database -> Private Supabase Storage for
+    medical documents -> Supabase Realtime for live staff dashboard
+    updates -> Optional Gemini API for symptom summaries
+
+9.  CORE WORKFLOWS
+
+-   Four-section patient registration: basic details, available vital
+    signs, symptoms and duration, medical history.
+-   Optional uploads for prescriptions and reports.
+-   Generate a unique, non-predictable UHID and a separate encounter ID.
+-   Display a preliminary result only after successful server-side
+    processing and saving.
+-   Staff dashboard with patient queue, urgency filters, statuses, and
+    alert acknowledgement.
+-   Clinician review and overrides with a recorded reason.
+-   Audit logs for access and modifications.
+
+10. SECURITY AND CLINICAL SAFETY
+
+-   Keep secret keys and privileged database credentials on the server,
+    never in frontend code.
+-   Enforce permissions in the backend and database, not only in the UI.
+-   Keep medical documents private and restrict access to authorized
+    users.
+-   Record access, modifications, alerts, and clinician overrides in
+    audit logs.
+-   Use fictional patient data in the hackathon demo.
+-   Do not treat missing measurements as normal.
+-   Do not let a general-purpose AI independently diagnose, guarantee
+    that a patient is safe, or declare a patient deceased.
+-   The BLACK/deceased status must only be recorded by an appropriately
+    authorized healthcare professional.
+-   Use hospital-approved, clinically validated triage protocols and
+    clinician oversight before any real-patient use.
+-   Do not claim a feature is secure, live, or working until it has been
+    implemented and tested.
+
+11. RECOMMENDED BUILD ORDER
+12. Build the responsive UI with mock data.
+13. Implement the four-section registration form and validation.
+14. Configure Supabase tables, authentication, and row-level security.
+15. Add patient submission, UHID, encounter ID, and result page.
+16. Build the hospital staff dashboard and alert workflow.
+17. Add private document uploads and audit logging.
+18. Test authorization, validation, uploads, duplicate submissions, and
+    responsive behaviour.
+19. Add optional AI summaries and email notifications.
+20. Deploy the frontend to Vercel and configure Supabase securely.
+
+MINIMAL CORE STACK Antigravity React TypeScript Vite Tailwind CSS
+shadcn/ui React Router React Hook Form Zod TanStack Query Supabase
+PostgreSQL Supabase Auth Supabase Edge Functions Supabase Storage
+Supabase Realtime Git GitHub Vercel
+
+Optional technologies should be added only when a specific feature
+requires them.
