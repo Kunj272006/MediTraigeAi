@@ -2,5 +2,9 @@ node_modules/
 dist/
 .DS_Store
 *.local
+.env
+*.env
 Frontend/node_modules/
 Frontend/dist/
+Backend/node_modules/
+Backend/dist/

@@ -11,6 +11,7 @@ import type { AssessmentFormData, EncounterRecord } from '../types';
 import { evaluateTriage } from '../lib/triageEngine';
 import { saveEncounter, generateUHID, generateEncounterNumber } from '../lib/store';
 import { audioAlert } from '../lib/audioAlert';
+import { api } from '../lib/api';
 
 export const AssessmentPage: React.FC = () => {
   const navigate = useNavigate();
@@ -90,9 +91,9 @@ export const AssessmentPage: React.FC = () => {
       // 1. Evaluate triage priority
       const triage = evaluateTriage(formData);
 
-      // Play alert chime if Emergency priority
-      if (triage.category === 'RED') {
-        audioAlert.playCriticalChime();
+      // Play alert chime if serious/emergency priority
+      if (triage.category === 'RED' || triage.isSerious) {
+        audioAlert.playSeriousAlarm();
       }
 
       // 2. Generate identifiers
@@ -121,14 +122,25 @@ export const AssessmentPage: React.FC = () => {
         history: formData.history,
       };
 
-      // 3. Save to store
-      saveEncounter(newRecord);
+      // 3. Save to backend API (with offline store fallback)
+      let finalId = newRecord.id;
+      try {
+        const apiRes = await api.createEncounter(formData);
+        if (apiRes && apiRes.success && apiRes.encounter) {
+          saveEncounter(apiRes.encounter);
+          finalId = apiRes.encounter.id;
+        } else {
+          saveEncounter(newRecord);
+        }
+      } catch {
+        saveEncounter(newRecord);
+      }
 
-      // 4. Brief simulated delay for clean processing feedback
+      // 4. Brief processing feedback
       setTimeout(() => {
         setIsSubmitting(false);
-        navigate(`/result/${newRecord.id}`);
-      }, 600);
+        navigate(`/result/${finalId}`);
+      }, 500);
     } catch (err) {
       console.error(err);
       setIsSubmitting(false);

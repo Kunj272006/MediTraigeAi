@@ -22,13 +22,21 @@ export const EmergencyBanner: React.FC<EmergencyBannerProps> = ({ variant = 'sub
             </p>
           </div>
         </div>
-        <a
-          href="tel:108"
-          className="shrink-0 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-triage-red text-white hover:bg-red-700 transition-colors shadow-sm"
-        >
-          <PhoneCall className="w-3.5 h-3.5" />
-          <span>Call 108</span>
-        </a>
+        <div className="flex items-center gap-2 shrink-0">
+          <a
+            href="/jeevan"
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold bg-white text-red-700 border border-red-200 hover:bg-red-50 transition shadow-2xs"
+          >
+            <span>🚨 Dispatch 108</span>
+          </a>
+          <a
+            href="tel:108"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-triage-red text-white hover:bg-red-700 transition shadow-sm"
+          >
+            <PhoneCall className="w-3.5 h-3.5" />
+            <span>Call 108</span>
+          </a>
+        </div>
       </div>
     );
   }

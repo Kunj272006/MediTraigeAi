@@ -1,0 +1,14 @@
+{
+  "name": "meditriage-ai",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix Frontend run dev",
+    "dev:backend": "npm --prefix Backend run dev",
+    "dev:frontend": "npm --prefix Frontend run dev",
+    "build:frontend": "npm --prefix Frontend run build",
+    "build:backend": "npm --prefix Backend run build",
+    "build": "npm run build:frontend && npm run build:backend",
+    "preview": "npm --prefix Frontend run preview"
+  }
+}

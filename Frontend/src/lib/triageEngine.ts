@@ -1,11 +1,15 @@
 import type { AssessmentFormData, TriageCategory, TriageLabel } from '../types';
+import { TRIAGE_WARNINGS } from '../types';
 
 export interface EvaluatedTriage {
   category: TriageCategory;
   triageLabel: TriageLabel;
+  emoji: string;
+  warningTitle: string;
   plainLanguageSummary: string;
   recommendedAction: string;
   targetResponseTime: string;
+  isSerious: boolean;
 }
 
 export function evaluateTriage(data: AssessmentFormData): EvaluatedTriage {
@@ -28,12 +32,16 @@ export function evaluateTriage(data: AssessmentFormData): EvaluatedTriage {
   const isSevereGeneral = symptoms.severity === 'Severe' && (sList.includes('Abdominal pain') || sList.includes('Dizziness') || sList.includes('Weakness'));
 
   if (hasCriticalSymptom || isSevereHypoxia || isSevereHypertension || isSevereHypotension || isSevereTachycardia || isSevereBradycardia || isSevereRespRate) {
+    const info = TRIAGE_WARNINGS.RED;
     return {
       category: 'RED',
       triageLabel: 'Emergency',
-      plainLanguageSummary: 'Requires immediate medical attention. High priority evaluation required.',
-      recommendedAction: 'Proceed immediately to the emergency triage desk. Do not wait in general registration.',
-      targetResponseTime: 'Immediate (Within 5–10 minutes)'
+      emoji: info.emoji,
+      warningTitle: info.title,
+      plainLanguageSummary: 'Serious treatment with in 5-10 mins. Immediate emergency medical intervention required.',
+      recommendedAction: 'Proceed immediately to the emergency resuscitation bay. Alert the on-duty trauma surgeon.',
+      targetResponseTime: '5-10 mins (Emergency)',
+      isSerious: true
     };
   }
 
@@ -45,22 +53,30 @@ export function evaluateTriage(data: AssessmentFormData): EvaluatedTriage {
   const isModerateSeverity = symptoms.severity === 'Moderate' && sList.length >= 2;
 
   if (isModerateHypoxia || isHighFeverProlonged || isModerateBP || hasUrgentSymptoms || isModerateSeverity || isSevereGeneral) {
+    const info = TRIAGE_WARNINGS.YELLOW;
     return {
       category: 'YELLOW',
       triageLabel: 'Urgent',
-      plainLanguageSummary: 'Should be seen by a doctor within a few hours.',
-      recommendedAction: 'Proceed to priority outpatient clinic or urgent care queue for physician evaluation.',
-      targetResponseTime: 'Prompt (Within 1–2 hours)'
+      emoji: info.emoji,
+      warningTitle: info.title,
+      plainLanguageSummary: 'stable but serious 30min-1hr. Requires prioritized physician assessment.',
+      recommendedAction: 'Assign to urgent care assessment area. Check vitals every 30 minutes.',
+      targetResponseTime: '30min-1hr (Urgent)',
+      isSerious: false
     };
   }
 
   // 3. LOWER URGENCY (GREEN) TRIGGERS
   // Never automatically assign BLACK. Black is clinician-confirmed deceased only.
+  const greenInfo = TRIAGE_WARNINGS.GREEN;
   return {
     category: 'GREEN',
     triageLabel: 'Lower urgency',
-    plainLanguageSummary: 'Can likely wait. Follow recommended advice and monitor symptoms.',
-    recommendedAction: 'Standard consultation queue. If symptoms worsen, notify hospital staff immediately.',
-    targetResponseTime: 'Routine (Within 2–4 hours)'
+    emoji: greenInfo.emoji,
+    warningTitle: greenInfo.title,
+    plainLanguageSummary: 'normal condition treatment under 2-4 hour. Routine consultation appropriate.',
+    recommendedAction: 'Standard OPD consultation queue. Monitor for symptom change or distress.',
+    targetResponseTime: '2-4 hours (Normal Condition)',
+    isSerious: false
   };
 }

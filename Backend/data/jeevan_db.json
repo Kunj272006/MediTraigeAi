@@ -1,0 +1,986 @@
+{
+  "incidents": [
+    {
+      "id": "inc-1792825602125-os3ri",
+      "incidentNumber": "JEV-2026-37383",
+      "state": "NO_VEHICLE_FOUND",
+      "intent": "medical_emergency",
+      "urgency": "critical",
+      "reportedSymptoms": [
+        "Acute Chest Pain",
+        "Respiratory Distress"
+      ],
+      "rawTranscript": "My father is having chest pain and he is not able to breathe properly. We are at Civil Lines, Dehradun. We need an ambulance immediately.",
+      "language": "en",
+      "pickupLocation": {
+        "lat": 30.392122,
+        "lng": 77.9388719,
+        "address": "Live GPS Pin (30.3921, 77.9389) - AIIMS Vicinity",
+        "landmark": "GPS Verified Accuracy"
+      },
+      "transportPreference": "ambulance",
+      "needsEmergencyEscalation": true,
+      "aiReasoning": "Critical trauma or life-threatening symptoms detected. Immediate emergency ambulance dispatch triggered without registration barrier.",
+      "aiConfidence": 0.95,
+      "timeline": [
+        {
+          "id": "t-1792825602125-1",
+          "state": "REQUEST_CAPTURED",
+          "title": "Emergency Request Initiated",
+          "description": "Transcribed: \"My father is having chest pain and he is not able to breathe properly. We are at Civil Lines, Dehradun. We need an ambulance immediately.\"",
+          "timestamp": "2026-10-24T07:06:42.125Z",
+          "actor": "Citizen Portal"
+        },
+        {
+          "id": "t-1792825602127-bstr",
+          "timestamp": "2026-10-24T07:06:42.127Z",
+          "state": "NO_VEHICLE_FOUND",
+          "title": "Emergency Queue Escalated to 108 Hotline",
+          "description": "No verified available ambulances within immediate perimeter. Direct hotline routing active.",
+          "actor": "Safety Policy Fallback"
+        }
+      ],
+      "createdAt": "2026-10-24T07:06:42.125Z",
+      "updatedAt": "2026-10-24T07:06:42.127Z",
+      "destinationHospitalId": "HOSP-DOON-04",
+      "destinationHospitalName": "Govt Doon Medical College & Hospital",
+      "patientName": "Unidentified Patient",
+      "patientGender": "Unspecified",
+      "contactPhone": "",
+      "isUnidentifiedPatient": true
+    },
+    {
+      "id": "inc-1792824072981-2dffj",
+      "incidentNumber": "JEV-2026-80869",
+      "state": "NO_VEHICLE_FOUND",
+      "intent": "medical_emergency",
+      "urgency": "critical",
+      "reportedSymptoms": [
+        "Acute Chest Pain",
+        "Respiratory Distress"
+      ],
+      "rawTranscript": "My father is having chest pain and he is not able to breathe properly. We are at Civil Lines, Dehradun. We need an ambulance immediately.",
+      "language": "en",
+      "pickupLocation": {
+        "lat": 30.392122,
+        "lng": 77.9388719,
+        "address": "Live GPS Pin (30.3921, 77.9389) - AIIMS Vicinity",
+        "landmark": "GPS Verified Accuracy"
+      },
+      "transportPreference": "ambulance",
+      "needsEmergencyEscalation": true,
+      "aiReasoning": "Critical trauma or life-threatening symptoms detected. Immediate emergency ambulance dispatch triggered without registration barrier.",
+      "aiConfidence": 0.95,
+      "timeline": [
+        {
+          "id": "t-1792824072981-1",
+          "state": "REQUEST_CAPTURED",
+          "title": "Emergency Request Initiated",
+          "description": "Transcribed: \"My father is having chest pain and he is not able to breathe properly. We are at Civil Lines, Dehradun. We need an ambulance immediately.\"",
+          "timestamp": "2026-10-24T06:41:12.981Z",
+          "actor": "Citizen Portal"
+        },
+        {
+          "id": "t-1792824072982-yvev",
+          "timestamp": "2026-10-24T06:41:12.982Z",
+          "state": "NO_VEHICLE_FOUND",
+          "title": "Emergency Queue Escalated to 108 Hotline",
+          "description": "No verified available ambulances within immediate perimeter. Direct hotline routing active.",
+          "actor": "Safety Policy Fallback"
+        }
+      ],
+      "createdAt": "2026-10-24T06:41:12.981Z",
+      "updatedAt": "2026-10-24T06:41:12.982Z",
+      "destinationHospitalId": "HOSP-DOON-04",
+      "destinationHospitalName": "Govt Doon Medical College & Hospital",
+      "patientName": "Unidentified Patient",
+      "patientGender": "Unspecified",
+      "contactPhone": "",
+      "isUnidentifiedPatient": true
+    },
+    {
+      "id": "inc-1792823643265-ymgmy",
+      "incidentNumber": "JEV-2026-56503",
+      "state": "NO_VEHICLE_FOUND",
+      "intent": "medical_emergency",
+      "urgency": "critical",
+      "reportedSymptoms": [
+        "Acute Chest Pain",
+        "Respiratory Distress"
+      ],
+      "rawTranscript": "My father is having chest pain and he is not able to breathe properly. We are at Civil Lines, Dehradun. We need an ambulance immediately.",
+      "language": "en",
+      "pickupLocation": {
+        "lat": 30.385069588926026,
+        "lng": 77.92958533523178,
+        "address": "Live GPS Pin (30.3851, 77.9296) - AIIMS Vicinity",
+        "landmark": "GPS Verified Accuracy"
+      },
+      "transportPreference": "ambulance",
+      "needsEmergencyEscalation": true,
+      "aiReasoning": "Critical trauma or life-threatening symptoms detected. Immediate emergency ambulance dispatch triggered without registration barrier.",
+      "aiConfidence": 0.95,
+      "timeline": [
+        {
+          "id": "t-1792823643265-1",
+          "state": "REQUEST_CAPTURED",
+          "title": "Emergency Request Initiated",
+          "description": "Transcribed: \"My father is having chest pain and he is not able to breathe properly. We are at Civil Lines, Dehradun. We need an ambulance immediately.\"",
+          "timestamp": "2026-10-24T06:34:03.266Z",
+          "actor": "Citizen Portal"
+        },
+        {
+          "id": "t-1792823643267-v1j2",
+          "timestamp": "2026-10-24T06:34:03.267Z",
+          "state": "NO_VEHICLE_FOUND",
+          "title": "Emergency Queue Escalated to 108 Hotline",
+          "description": "No verified available ambulances within immediate perimeter. Direct hotline routing active.",
+          "actor": "Safety Policy Fallback"
+        }
+      ],
+      "createdAt": "2026-10-24T06:34:03.266Z",
+      "updatedAt": "2026-10-24T06:34:03.267Z",
+      "destinationHospitalId": "HOSP-DOON-04",
+      "destinationHospitalName": "Govt Doon Medical College & Hospital",
+      "patientName": "Unidentified Patient",
+      "patientGender": "Unspecified",
+      "contactPhone": "",
+      "isUnidentifiedPatient": true
+    },
+    {
+      "id": "inc-1792820970202-dfa1e",
+      "incidentNumber": "JEV-2026-92244",
+      "state": "NO_VEHICLE_FOUND",
+      "intent": "medical_emergency",
+      "urgency": "critical",
+      "reportedSymptoms": [
+        "Acute Chest Pain",
+        "Respiratory Distress"
+      ],
+      "rawTranscript": "My father is having chest pain and he is not able to breathe properly. We are at Civil Lines, Dehradun. We need an ambulance immediately.",
+      "language": "en",
+      "pickupLocation": {
+        "lat": 30.392122,
+        "lng": 77.9388719,
+        "address": "Live GPS Pin (30.3921, 77.9389) - AIIMS Vicinity",
+        "landmark": "GPS Verified Accuracy"
+      },
+      "transportPreference": "ambulance",
+      "needsEmergencyEscalation": true,
+      "aiReasoning": "Critical trauma or life-threatening symptoms detected. Immediate emergency ambulance dispatch triggered without registration barrier.",
+      "aiConfidence": 0.95,
+      "timeline": [
+        {
+          "id": "t-1792820970202-1",
+          "state": "REQUEST_CAPTURED",
+          "title": "Emergency Request Initiated",
+          "description": "Transcribed: \"My father is having chest pain and he is not able to breathe properly. We are at Civil Lines, Dehradun. We need an ambulance immediately.\"",
+          "timestamp": "2026-10-24T05:49:30.202Z",
+          "actor": "Citizen Portal"
+        },
+        {
+          "id": "t-1792820970203-49xj",
+          "timestamp": "2026-10-24T05:49:30.203Z",
+          "state": "NO_VEHICLE_FOUND",
+          "title": "Emergency Queue Escalated to 108 Hotline",
+          "description": "No verified available ambulances within immediate perimeter. Direct hotline routing active.",
+          "actor": "Safety Policy Fallback"
+        }
+      ],
+      "createdAt": "2026-10-24T05:49:30.202Z",
+      "updatedAt": "2026-10-24T05:49:30.203Z",
+      "destinationHospitalId": "HOSP-DOON-04",
+      "destinationHospitalName": "Govt Doon Medical College & Hospital",
+      "patientName": "Unidentified Patient",
+      "patientGender": "Unspecified",
+      "contactPhone": "",
+      "isUnidentifiedPatient": true
+    },
+    {
+      "id": "inc-1792819858235-iy18p",
+      "incidentNumber": "JEV-2026-12453",
+      "state": "DISPATCH_ACCEPTED",
+      "intent": "medical_emergency",
+      "urgency": "critical",
+      "reportedSymptoms": [
+        "Acute Chest Pain",
+        "Respiratory Distress"
+      ],
+      "rawTranscript": "My father is having chest pain and he is not able to breathe properly. We are at Civil Lines, Dehradun. We need an ambulance immediately.",
+      "language": "en",
+      "pickupLocation": {
+        "lat": 28.5672,
+        "lng": 77.21,
+        "address": "AIIMS Apex Trauma Center, Ring Road, Ansari Nagar, New Delhi",
+        "landmark": "AIIMS Metro Station Gate 2"
+      },
+      "transportPreference": "ambulance",
+      "needsEmergencyEscalation": true,
+      "aiReasoning": "Critical trauma or life-threatening symptoms detected. Immediate emergency ambulance dispatch triggered without registration barrier.",
+      "aiConfidence": 0.95,
+      "timeline": [
+        {
+          "id": "t-1792819858236-1",
+          "state": "REQUEST_CAPTURED",
+          "title": "Emergency Request Initiated",
+          "description": "Transcribed: \"My father is having chest pain and he is not able to breathe properly. We are at Civil Lines, Dehradun. We need an ambulance immediately.\"",
+          "timestamp": "2026-10-24T05:30:58.236Z",
+          "actor": "Citizen Portal"
+        },
+        {
+          "id": "t-1792819858242-cl54",
+          "timestamp": "2026-10-24T05:30:58.242Z",
+          "state": "DISPATCH_ACCEPTED",
+          "title": "AMBULANCE ALS Dispatched",
+          "description": "Dispatched Uttarakhand 108 ALS Dehradun (UK-07-EM-1088). ETA: 465 mins (278 km away). Operator: Virendra Singh Negi.",
+          "actor": "Autonomous Dispatch Engine"
+        }
+      ],
+      "createdAt": "2026-10-24T05:30:58.236Z",
+      "updatedAt": "2026-10-24T05:30:58.242Z",
+      "destinationHospitalId": "HOSP-AIIMS-01",
+      "destinationHospitalName": "AIIMS Apex Trauma Center",
+      "patientName": "Unidentified Patient",
+      "patientGender": "Unspecified",
+      "contactPhone": "",
+      "isUnidentifiedPatient": true,
+      "assignedVehicleId": "VEH-DOON-05",
+      "assignedVehicleCallSign": "Uttarakhand 108 ALS Dehradun",
+      "assignedVehicleType": "AMBULANCE_ALS",
+      "etaMinutes": 465,
+      "roadDistanceKm": 278
+    },
+    {
+      "id": "inc-1792818864255-8r2qj",
+      "incidentNumber": "JEV-2026-54938",
+      "state": "REQUEST_CAPTURED",
+      "intent": "other",
+      "urgency": "uncertain",
+      "reportedSymptoms": [
+        "Unspecified medical inquiry"
+      ],
+      "rawTranscript": "Critical Emergency ALS Ambulance dispatch requested: Immediate ICU care & ventilator required.",
+      "language": "en",
+      "pickupLocation": {
+        "lat": 30.392122,
+        "lng": 77.9388719,
+        "address": "Live GPS Location (30.3921, 77.9389)",
+        "landmark": "GPS Verified Accuracy (Immediate Pin)"
+      },
+      "transportPreference": "unknown",
+      "needsEmergencyEscalation": false,
+      "aiReasoning": "Ambiguous inquiry. Awaiting rapid clarification while maintaining safety hotline access.",
+      "aiConfidence": 0.65,
+      "timeline": [
+        {
+          "id": "t-1792818864255-1",
+          "state": "REQUEST_CAPTURED",
+          "title": "Emergency Request Initiated",
+          "description": "Transcribed: \"Critical Emergency ALS Ambulance dispatch requested: Immediate ICU care & ventilator required.\"",
+          "timestamp": "2026-10-24T05:14:24.255Z",
+          "actor": "Citizen Portal"
+        }
+      ],
+      "createdAt": "2026-10-24T05:14:24.255Z",
+      "updatedAt": "2026-10-24T05:14:24.255Z",
+      "destinationHospitalId": "HOSP-DOON-04",
+      "destinationHospitalName": "Govt Doon Medical College & Hospital",
+      "patientName": "Unidentified Patient",
+      "patientGender": "Unspecified",
+      "contactPhone": "",
+      "isUnidentifiedPatient": true
+    },
+    {
+      "id": "inc-1792818818397-gs3bs",
+      "incidentNumber": "JEV-2026-72269",
+      "state": "REQUEST_CAPTURED",
+      "intent": "other",
+      "urgency": "uncertain",
+      "reportedSymptoms": [
+        "Unspecified medical inquiry"
+      ],
+      "rawTranscript": "Critical Emergency ALS Ambulance dispatch requested: Immediate ICU care & ventilator required.",
+      "language": "en",
+      "pickupLocation": {
+        "lat": 28.5672,
+        "lng": 77.21,
+        "address": "AIIMS Apex Trauma Center, Ring Road, Ansari Nagar, New Delhi",
+        "landmark": "AIIMS Metro Station Gate 2"
+      },
+      "transportPreference": "unknown",
+      "needsEmergencyEscalation": false,
+      "aiReasoning": "Ambiguous inquiry. Awaiting rapid clarification while maintaining safety hotline access.",
+      "aiConfidence": 0.65,
+      "timeline": [
+        {
+          "id": "t-1792818818397-1",
+          "state": "REQUEST_CAPTURED",
+          "title": "Emergency Request Initiated",
+          "description": "Transcribed: \"Critical Emergency ALS Ambulance dispatch requested: Immediate ICU care & ventilator required.\"",
+          "timestamp": "2026-10-24T05:13:38.397Z",
+          "actor": "Citizen Portal"
+        }
+      ],
+      "createdAt": "2026-10-24T05:13:38.397Z",
+      "updatedAt": "2026-10-24T05:13:38.397Z",
+      "destinationHospitalId": "HOSP-AIIMS-01",
+      "destinationHospitalName": "AIIMS Apex Trauma Center",
+      "patientName": "Unidentified Patient",
+      "patientGender": "Unspecified",
+      "contactPhone": "",
+      "isUnidentifiedPatient": true
+    },
+    {
+      "id": "inc-1792818137198-7f0yy",
+      "incidentNumber": "JEV-2026-64169",
+      "state": "REQUEST_CAPTURED",
+      "intent": "other",
+      "urgency": "uncertain",
+      "reportedSymptoms": [
+        "Unspecified medical inquiry"
+      ],
+      "rawTranscript": "Emergency Assistance: Immediate ALS ambulance response requested at live location.",
+      "language": "en",
+      "pickupLocation": {
+        "lat": 28.5672,
+        "lng": 77.21,
+        "address": "AIIMS Apex Trauma Center Gate No 2, Ring Road",
+        "landmark": "AIIMS Apex Trauma Center Gate No 2, Ring Road"
+      },
+      "transportPreference": "unknown",
+      "needsEmergencyEscalation": false,
+      "aiReasoning": "Ambiguous inquiry. Awaiting rapid clarification while maintaining safety hotline access.",
+      "aiConfidence": 0.65,
+      "timeline": [
+        {
+          "id": "t-1792818137198-1",
+          "state": "REQUEST_CAPTURED",
+          "title": "Emergency Request Initiated",
+          "description": "Transcribed: \"Emergency Assistance: Immediate ALS ambulance response requested at live location.\"",
+          "timestamp": "2026-10-24T05:02:17.198Z",
+          "actor": "Citizen Portal"
+        }
+      ],
+      "createdAt": "2026-10-24T05:02:17.198Z",
+      "updatedAt": "2026-10-24T05:02:17.198Z",
+      "destinationHospitalId": "HOSP-AIIMS-01",
+      "destinationHospitalName": "AIIMS Apex Trauma Center",
+      "patientName": "Unidentified Patient",
+      "patientGender": "Unspecified",
+      "contactPhone": "",
+      "isUnidentifiedPatient": true
+    },
+    {
+      "id": "inc-1792817026916-nq542",
+      "incidentNumber": "JEV-2026-14091",
+      "state": "DISPATCH_ACCEPTED",
+      "intent": "medical_emergency",
+      "urgency": "critical",
+      "reportedSymptoms": [
+        "Road Accident Trauma",
+        "Severe Bleeding"
+      ],
+      "rawTranscript": "Severe road accident trauma with bleeding",
+      "language": "en",
+      "pickupLocation": {
+        "lat": 28.5672,
+        "lng": 77.21,
+        "address": "Ring Road New Delhi",
+        "landmark": "Apex Medical Grid"
+      },
+      "transportPreference": "ambulance",
+      "needsEmergencyEscalation": true,
+      "aiReasoning": "Critical trauma or life-threatening symptoms detected. Immediate emergency ambulance dispatch triggered without registration barrier.",
+      "aiConfidence": 0.95,
+      "timeline": [
+        {
+          "id": "t-1792817026916-1",
+          "state": "REQUEST_CAPTURED",
+          "title": "Emergency Request Initiated",
+          "description": "Transcribed: \"Severe road accident trauma with bleeding\"",
+          "timestamp": "2026-10-24T04:43:46.916Z",
+          "actor": "Citizen Portal"
+        },
+        {
+          "id": "t-1792817026918-b44q",
+          "timestamp": "2026-10-24T04:43:46.918Z",
+          "state": "DISPATCH_ACCEPTED",
+          "title": "AMBULANCE BLS Dispatched",
+          "description": "Dispatched City BLS Ambulance 12 (DL-03-BL-8874). ETA: 14 mins (7.7 km away). Operator: Deepak Rawat.",
+          "actor": "Autonomous Dispatch Engine"
+        },
+        {
+          "id": "t-1792817254647-70wn",
+          "timestamp": "2026-10-24T04:47:34.647Z",
+          "state": "DISPATCH_ACCEPTED",
+          "title": "Dispatch Accepted",
+          "description": "Manual dispatch accepted by dispatcher",
+          "actor": "DISPATCHER"
+        },
+        {
+          "id": "t-1792817255429-kb4k",
+          "timestamp": "2026-10-24T04:47:35.429Z",
+          "state": "DISPATCH_ACCEPTED",
+          "title": "Dispatch Accepted",
+          "description": "Manual dispatch accepted by dispatcher",
+          "actor": "DISPATCHER"
+        }
+      ],
+      "createdAt": "2026-10-24T04:43:46.916Z",
+      "updatedAt": "2026-10-24T04:47:35.429Z",
+      "destinationHospitalId": "HOSP-AIIMS-01",
+      "destinationHospitalName": "AIIMS Apex Trauma Center",
+      "patientName": "Unidentified Patient",
+      "patientGender": "Unspecified",
+      "contactPhone": "",
+      "isUnidentifiedPatient": true,
+      "assignedVehicleId": "VEH-BLS-03",
+      "assignedVehicleCallSign": "City BLS Ambulance 12",
+      "assignedVehicleType": "AMBULANCE_BLS",
+      "etaMinutes": 14,
+      "roadDistanceKm": 7.7
+    },
+    {
+      "id": "inc-1792795933357-jlrt3",
+      "incidentNumber": "JEV-2026-94640",
+      "state": "DISPATCH_ACCEPTED",
+      "intent": "medical_emergency",
+      "urgency": "critical",
+      "reportedSymptoms": [
+        "Road Accident Trauma",
+        "Severe Bleeding"
+      ],
+      "rawTranscript": "I have been in a road accident. Severe trauma with heavy bleeding. Please send an emergency ambulance immediately.",
+      "language": "en",
+      "pickupLocation": {
+        "lat": 28.5672,
+        "lng": 77.21,
+        "address": "GPS Verified Location: AIIMS Ring Road, Ansari Nagar, New Delhi",
+        "landmark": "AIIMS Metro Station Gate 2"
+      },
+      "transportPreference": "ambulance",
+      "needsEmergencyEscalation": true,
+      "aiReasoning": "Critical trauma or life-threatening symptoms detected. Immediate emergency ambulance dispatch triggered without registration barrier.",
+      "aiConfidence": 0.95,
+      "timeline": [
+        {
+          "id": "t-1792795933357-1",
+          "state": "REQUEST_CAPTURED",
+          "title": "Emergency Request Initiated",
+          "description": "Transcribed: \"I have been in a road accident. Severe trauma with heavy bleeding. Please send an emergency ambulance immediately.\"",
+          "timestamp": "2026-10-23T22:52:13.357Z",
+          "actor": "Citizen Portal"
+        },
+        {
+          "id": "t-1792795933364-wgm3",
+          "timestamp": "2026-10-23T22:52:13.364Z",
+          "state": "DISPATCH_ACCEPTED",
+          "title": "AMBULANCE ALS Dispatched",
+          "description": "Dispatched Trauma One ALS Unit (DL-02-ER-4421). ETA: 10 mins (5.3 km away). Operator: Rameshwar Dayal.",
+          "actor": "Autonomous Dispatch Engine"
+        },
+        {
+          "id": "t-1792805428027-30br",
+          "timestamp": "2026-10-24T01:30:28.027Z",
+          "state": "DISPATCH_ACCEPTED",
+          "title": "Dispatch Accepted",
+          "description": "Manual dispatch accepted by dispatcher",
+          "actor": "DISPATCHER"
+        }
+      ],
+      "createdAt": "2026-10-23T22:52:13.357Z",
+      "updatedAt": "2026-10-24T01:30:28.027Z",
+      "destinationHospitalId": "HOSP-AIIMS-01",
+      "destinationHospitalName": "AIIMS Apex Trauma Center",
+      "patientName": "Unidentified Patient",
+      "patientGender": "Unspecified",
+      "contactPhone": "",
+      "isUnidentifiedPatient": true,
+      "assignedVehicleId": "VEH-ALS-02",
+      "assignedVehicleCallSign": "Trauma One ALS Unit",
+      "assignedVehicleType": "AMBULANCE_ALS",
+      "etaMinutes": 10,
+      "roadDistanceKm": 5.3
+    },
+    {
+      "id": "inc-1792795328927-gy71c",
+      "incidentNumber": "JEV-2026-82279",
+      "state": "TREATMENT_STARTED",
+      "intent": "medical_emergency",
+      "urgency": "critical",
+      "reportedSymptoms": [
+        "Road Accident Trauma",
+        "Severe Bleeding"
+      ],
+      "rawTranscript": "Road accident on Ring road, severe bleeding",
+      "language": "en",
+      "pickupLocation": {
+        "lat": 28.5672,
+        "lng": 77.21,
+        "address": "Ring Road, New Delhi",
+        "landmark": "Apex Medical Grid"
+      },
+      "transportPreference": "ambulance",
+      "needsEmergencyEscalation": true,
+      "aiReasoning": "Critical trauma or life-threatening symptoms detected. Immediate emergency ambulance dispatch triggered without registration barrier.",
+      "aiConfidence": 0.95,
+      "timeline": [
+        {
+          "id": "t-1792795328927-1",
+          "state": "REQUEST_CAPTURED",
+          "title": "Emergency Request Initiated",
+          "description": "Transcribed: \"Road accident on Ring road, severe bleeding\"",
+          "timestamp": "2026-10-23T22:42:08.927Z",
+          "actor": "Citizen Portal"
+        },
+        {
+          "id": "t-1792795328929-gmxv",
+          "timestamp": "2026-10-23T22:42:08.929Z",
+          "state": "DISPATCH_ACCEPTED",
+          "title": "AMBULANCE ALS Dispatched",
+          "description": "Dispatched ALS Rapid Response 108 (DL-01-EQ-9108). ETA: 5 mins (2.3 km away). Operator: Sunil Kumar (Paramedic).",
+          "actor": "Autonomous Dispatch Engine"
+        },
+        {
+          "id": "t-1792817259987-7vgf",
+          "timestamp": "2026-10-24T04:47:39.987Z",
+          "state": "VEHICLE_EN_ROUTE",
+          "title": "Ambulance En Route to Scene",
+          "description": "Siren on, rolling to pickup",
+          "actor": "OPERATOR"
+        },
+        {
+          "id": "t-1792817262691-yukv",
+          "timestamp": "2026-10-24T04:47:42.691Z",
+          "state": "VEHICLE_AT_PICKUP",
+          "title": "Arrived at Patient Location",
+          "description": "Arrived at patient location",
+          "actor": "OPERATOR"
+        },
+        {
+          "id": "t-1792817263952-neoi",
+          "timestamp": "2026-10-24T04:47:43.952Z",
+          "state": "PATIENT_ONBOARD",
+          "title": "Patient Secured Onboard",
+          "description": "Patient secured in ambulance, en route to hospital",
+          "actor": "OPERATOR"
+        },
+        {
+          "id": "t-1792817265272-hlq7",
+          "timestamp": "2026-10-24T04:47:45.272Z",
+          "state": "ARRIVED_AT_HOSPITAL",
+          "title": "Arrived at Emergency Department",
+          "description": "Ambulance backed into trauma bay",
+          "actor": "OPERATOR"
+        },
+        {
+          "id": "t-1792817269246-eoy2",
+          "timestamp": "2026-10-24T04:47:49.246Z",
+          "state": "TREATMENT_STARTED",
+          "title": "Emergency Resuscitation Initiated",
+          "description": "Emergency trauma resuscitation initiated by ER duty officer",
+          "actor": "HOSPITAL_STAFF"
+        }
+      ],
+      "createdAt": "2026-10-23T22:42:08.927Z",
+      "updatedAt": "2026-10-24T04:47:49.246Z",
+      "destinationHospitalId": "HOSP-AIIMS-01",
+      "destinationHospitalName": "AIIMS Apex Trauma Center",
+      "patientName": "Unidentified Patient",
+      "patientGender": "Unspecified",
+      "contactPhone": "",
+      "isUnidentifiedPatient": true,
+      "assignedVehicleId": "VEH-ALS-01",
+      "assignedVehicleCallSign": "ALS Rapid Response 108",
+      "assignedVehicleType": "AMBULANCE_ALS",
+      "etaMinutes": 5,
+      "roadDistanceKm": 2.3
+    },
+    {
+      "id": "inc-demo-01",
+      "incidentNumber": "JEV-2026-88412",
+      "intent": "medical_emergency",
+      "urgency": "critical",
+      "reportedSymptoms": [
+        "Road Accident Trauma",
+        "Severe Bleeding",
+        "Suspected Fracture"
+      ],
+      "rawTranscript": "I have been in a road accident. I am bleeding badly. Please help me.",
+      "language": "en",
+      "pickupLocation": {
+        "lat": 28.585,
+        "lng": 77.21,
+        "address": "Near AIIMS Flyover, Ring Road, New Delhi",
+        "landmark": "Under metro pillar 42"
+      },
+      "destinationHospitalId": "HOSP-AIIMS-01",
+      "destinationHospitalName": "AIIMS Apex Trauma Center",
+      "transportPreference": "ambulance",
+      "assignedVehicleId": "VEH-ALS-01",
+      "assignedVehicleCallSign": "ALS Rapid Response 108",
+      "assignedVehicleType": "AMBULANCE_ALS",
+      "etaMinutes": 6,
+      "roadDistanceKm": 2.8,
+      "patientName": "Arjun Verma",
+      "patientAge": 29,
+      "patientGender": "Male",
+      "contactPhone": "+91 98111 55443",
+      "needsEmergencyEscalation": true,
+      "aiReasoning": "Critical vehicular trauma reported with severe active hemorrhaging. Dispatched nearest ALS unit with trauma resuscitation capability.",
+      "aiConfidence": 0.98,
+      "timeline": [
+        {
+          "id": "t-1",
+          "state": "REQUEST_CAPTURED",
+          "title": "Emergency Request Captured",
+          "description": "Voice request transcribed: \"I have been in a road accident. I am bleeding badly. Please help me.\"",
+          "timestamp": "2026-10-23T16:39:10.756Z",
+          "actor": "Citizen Voice Assistant"
+        },
+        {
+          "id": "t-2",
+          "state": "INTENT_CLASSIFIED",
+          "title": "Critical Emergency Classified",
+          "description": "Deterministic Safety Engine flagged high-acuity trauma. Registration barrier bypassed.",
+          "timestamp": "2026-10-23T16:39:40.756Z",
+          "actor": "Jeevan AI Policy Engine"
+        },
+        {
+          "id": "t-3",
+          "state": "DISPATCH_ACCEPTED",
+          "title": "ALS Ambulance Dispatched",
+          "description": "Assigned to ALS Rapid Response 108 (DL-01-EQ-9108). Accepted by Paramedic Sunil Kumar.",
+          "timestamp": "2026-10-23T16:41:10.756Z",
+          "actor": "Auto Dispatcher"
+        },
+        {
+          "id": "t-4",
+          "state": "VEHICLE_EN_ROUTE",
+          "title": "Ambulance En Route",
+          "description": "Vehicle GPS active. Estimated arrival in 6 minutes.",
+          "timestamp": "2026-10-23T16:42:10.756Z",
+          "actor": "Ambulance Telemetry"
+        },
+        {
+          "id": "t-1792779879895-vgj0",
+          "timestamp": "2026-10-23T18:24:39.895Z",
+          "description": "State advanced to undefined.",
+          "actor": "OPERATOR"
+        },
+        {
+          "id": "t-1792781050618-lrbg",
+          "timestamp": "2026-10-23T18:44:10.618Z",
+          "description": "State advanced to undefined.",
+          "actor": "DISPATCHER"
+        },
+        {
+          "id": "t-1792781052633-pffd",
+          "timestamp": "2026-10-23T18:44:12.633Z",
+          "description": "State advanced to undefined.",
+          "actor": "DISPATCHER"
+        },
+        {
+          "id": "t-1792781510614-kvkp",
+          "timestamp": "2026-10-23T18:51:50.614Z",
+          "description": "State advanced to undefined.",
+          "actor": "DISPATCHER"
+        },
+        {
+          "id": "t-1792781512853-qx5i",
+          "timestamp": "2026-10-23T18:51:52.853Z",
+          "description": "State advanced to undefined.",
+          "actor": "DISPATCHER"
+        },
+        {
+          "id": "t-1792781520305-tja0",
+          "timestamp": "2026-10-23T18:52:00.305Z",
+          "description": "State advanced to undefined.",
+          "actor": "DISPATCHER"
+        },
+        {
+          "id": "t-1792781534680-xa4n",
+          "timestamp": "2026-10-23T18:52:14.680Z",
+          "description": "State advanced to undefined.",
+          "actor": "DISPATCHER"
+        },
+        {
+          "id": "t-1792787912771-3c7c",
+          "timestamp": "2026-10-23T20:38:32.772Z",
+          "description": "State advanced to undefined.",
+          "actor": "DISPATCHER"
+        }
+      ],
+      "createdAt": "2026-10-23T16:39:10.756Z",
+      "updatedAt": "2026-10-23T20:38:32.772Z"
+    }
+  ],
+  "vehicles": [
+    {
+      "id": "VEH-ALS-01",
+      "vehicleNumber": "DL-01-EQ-9108",
+      "callSign": "ALS Rapid Response 108",
+      "capability": "AMBULANCE_ALS",
+      "status": "EN_ROUTE",
+      "currentLocation": {
+        "lat": 28.5821,
+        "lng": 77.2145,
+        "address": "Lodhi Road Emergency Base, New Delhi"
+      },
+      "bearing": 45,
+      "operatorName": "Sunil Kumar (Paramedic)",
+      "operatorPhone": "+91 98765 11001",
+      "equipment": [
+        "Ventilator",
+        "Defibrillator",
+        "Oxygen Tank",
+        "ECG Monitor",
+        "Suction Unit",
+        "Spine Board"
+      ],
+      "lastPingTime": "2026-10-24T04:47:39.986Z",
+      "activeIncidentId": "inc-1792795328927-gy71c"
+    },
+    {
+      "id": "VEH-ALS-02",
+      "vehicleNumber": "DL-02-ER-4421",
+      "callSign": "Trauma One ALS Unit",
+      "capability": "AMBULANCE_ALS",
+      "status": "ASSIGNED",
+      "currentLocation": {
+        "lat": 28.5995,
+        "lng": 77.192,
+        "address": "Chanakyapuri Flyover Point, New Delhi"
+      },
+      "bearing": 180,
+      "operatorName": "Rameshwar Dayal",
+      "operatorPhone": "+91 98765 11002",
+      "equipment": [
+        "Ventilator",
+        "Multipara Monitor",
+        "Syringe Pump",
+        "Trauma Splints",
+        "Oxygen Cylinder"
+      ],
+      "lastPingTime": "2026-10-23T22:52:13.360Z",
+      "activeIncidentId": "inc-1792795933357-jlrt3"
+    },
+    {
+      "id": "VEH-BLS-03",
+      "vehicleNumber": "DL-03-BL-8874",
+      "callSign": "City BLS Ambulance 12",
+      "capability": "AMBULANCE_BLS",
+      "status": "ASSIGNED",
+      "currentLocation": {
+        "lat": 28.6189,
+        "lng": 77.218,
+        "address": "India Gate Emergency Standby, New Delhi"
+      },
+      "bearing": 90,
+      "operatorName": "Deepak Rawat",
+      "operatorPhone": "+91 98765 11003",
+      "equipment": [
+        "Oxygen Delivery",
+        "AED Automated External Defibrillator",
+        "First Aid Trauma Kit",
+        "Stretcher"
+      ],
+      "lastPingTime": "2026-10-24T04:43:46.917Z",
+      "activeIncidentId": "inc-1792817026916-nq542"
+    },
+    {
+      "id": "VEH-PTS-04",
+      "vehicleNumber": "DL-04-TR-5532",
+      "callSign": "Patient Mobility Van 04",
+      "capability": "WHEELCHAIR_CAB",
+      "status": "AVAILABLE",
+      "currentLocation": {
+        "lat": 28.605,
+        "lng": 77.225,
+        "address": "Barakhamba Standby, New Delhi"
+      },
+      "bearing": 270,
+      "operatorName": "Manish Tyagi",
+      "operatorPhone": "+91 98765 11004",
+      "equipment": [
+        "Wheelchair Hydraulic Ramp",
+        "Low-Step Access",
+        "First Aid Box"
+      ],
+      "lastPingTime": "2026-10-23T16:49:10.756Z"
+    },
+    {
+      "id": "VEH-DOON-05",
+      "vehicleNumber": "UK-07-EM-1088",
+      "callSign": "Uttarakhand 108 ALS Dehradun",
+      "capability": "AMBULANCE_ALS",
+      "status": "ASSIGNED",
+      "currentLocation": {
+        "lat": 30.319,
+        "lng": 78.038,
+        "address": "Clock Tower Emergency Stand, Dehradun"
+      },
+      "bearing": 0,
+      "operatorName": "Virendra Singh Negi",
+      "operatorPhone": "+91 98765 11005",
+      "equipment": [
+        "Transport Ventilator",
+        "Monitor",
+        "Spine immobilization",
+        "Suction Machine"
+      ],
+      "lastPingTime": "2026-10-24T05:30:58.237Z",
+      "activeIncidentId": "inc-1792819858235-iy18p"
+    }
+  ],
+  "hospitals": [
+    {
+      "id": "HOSP-AIIMS-01",
+      "name": "AIIMS Apex Trauma Center",
+      "type": "TRAUMA_CENTER",
+      "address": "Ring Road, Raj Nagar, Safdarjung Enclave, New Delhi",
+      "city": "New Delhi",
+      "location": {
+        "lat": 28.5672,
+        "lng": 77.2065,
+        "address": "AIIMS Trauma Center, Ring Rd, New Delhi"
+      },
+      "phone": "011-26588500",
+      "emergencyDepartmentStatus": "NORMAL",
+      "emergencyBedsAvailable": 8,
+      "totalBeds": 260,
+      "icuBedsAvailable": 4,
+      "traumaBaysAvailable": 3,
+      "departments": [
+        "Emergency Medicine",
+        "Trauma Surgery",
+        "Neurosurgery",
+        "Cardiology",
+        "Orthopedics"
+      ]
+    },
+    {
+      "id": "HOSP-SAFDARJUNG-02",
+      "name": "Safdarjung Government Hospital",
+      "type": "GOVT_MEDICAL_COLLEGE",
+      "address": "Ansari Nagar West, New Delhi",
+      "city": "New Delhi",
+      "location": {
+        "lat": 28.5701,
+        "lng": 77.2081,
+        "address": "Safdarjung Hospital, Ansari Nagar West, New Delhi"
+      },
+      "phone": "011-26165060",
+      "emergencyDepartmentStatus": "NORMAL",
+      "emergencyBedsAvailable": 14,
+      "totalBeds": 1550,
+      "icuBedsAvailable": 6,
+      "traumaBaysAvailable": 4,
+      "departments": [
+        "Emergency Department",
+        "General Surgery",
+        "Obstetrics & Gynaecology",
+        "Pediatrics",
+        "Burn ICU"
+      ]
+    },
+    {
+      "id": "HOSP-RML-03",
+      "name": "Dr. Ram Manohar Lohia (RML) Hospital",
+      "type": "DISTRICT_HOSPITAL",
+      "address": "Baba Kharak Singh Marg, Connaught Place, New Delhi",
+      "city": "New Delhi",
+      "location": {
+        "lat": 28.6247,
+        "lng": 77.2008,
+        "address": "RML Hospital, Baba Kharak Singh Marg, New Delhi"
+      },
+      "phone": "011-23365525",
+      "emergencyDepartmentStatus": "NORMAL",
+      "emergencyBedsAvailable": 11,
+      "totalBeds": 1400,
+      "icuBedsAvailable": 5,
+      "traumaBaysAvailable": 2,
+      "departments": [
+        "Emergency & Casualty",
+        "Cardiology",
+        "Neurology",
+        "Internal Medicine",
+        "General OPD"
+      ]
+    },
+    {
+      "id": "HOSP-DOON-04",
+      "name": "Govt Doon Medical College & Hospital",
+      "type": "GOVT_MEDICAL_COLLEGE",
+      "address": "Parade Ground, Dehradun, Uttarakhand",
+      "city": "Dehradun",
+      "location": {
+        "lat": 30.3256,
+        "lng": 78.0437,
+        "address": "Govt Doon Hospital, Parade Ground, Dehradun"
+      },
+      "phone": "0135-2726020",
+      "emergencyDepartmentStatus": "NORMAL",
+      "emergencyBedsAvailable": 18,
+      "totalBeds": 600,
+      "icuBedsAvailable": 8,
+      "traumaBaysAvailable": 4,
+      "departments": [
+        "Emergency Trauma Unit",
+        "Orthopedics",
+        "General Surgery",
+        "Obstetrics",
+        "Pediatrics"
+      ]
+    }
+  ],
+  "appointments": [
+    {
+      "id": "apt-1792821788014-355l",
+      "appointmentNumber": "OPD-2026-2475",
+      "createdAt": "2026-10-24T06:03:08.014Z",
+      "hospitalId": "HOSP-AIIMS-01",
+      "hospitalName": "Government District Hospital",
+      "department": "General Medicine",
+      "patientName": "Ramesh Kumar",
+      "patientPhone": "+91 98765 43210",
+      "date": "2026-10-24",
+      "timeSlot": "10:30 AM - 11:30 AM",
+      "reason": "Routine OPD Consultation",
+      "status": "CONFIRMED",
+      "transportBooked": false
+    },
+    {
+      "id": "apt-1792817034427-vie7",
+      "appointmentNumber": "OPD-2026-1653",
+      "createdAt": "2026-10-24T04:43:54.427Z",
+      "hospitalId": "HOSP-AIIMS-01",
+      "hospitalName": "Government District Hospital",
+      "department": "General Medicine",
+      "patientName": "Ramesh Kumar",
+      "patientPhone": "+91 98765 43210",
+      "date": "2026-10-24",
+      "timeSlot": "10:30 AM - 11:30 AM",
+      "reason": "Routine OPD Consultation",
+      "status": "CONFIRMED",
+      "transportBooked": false
+    },
+    {
+      "id": "apt-1792800475989-80j0",
+      "appointmentNumber": "OPD-2026-7320",
+      "createdAt": "2026-10-24T00:07:55.989Z",
+      "hospitalId": "HOSP-AIIMS-01",
+      "hospitalName": "Government District Hospital",
+      "department": "General Medicine",
+      "patientName": "Ramesh Kumar",
+      "patientPhone": "+91 98765 43210",
+      "date": "2026-10-24",
+      "timeSlot": "10:30 AM - 11:30 AM",
+      "reason": "Routine OPD Consultation",
+      "status": "CONFIRMED",
+      "transportBooked": false
+    }
+  ],
+  "registrations": []
+}

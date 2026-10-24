@@ -2,12 +2,17 @@ import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getEncounters, updateEncounter } from '../lib/store';
 import type { EncounterRecord, TriageCategory } from '../types';
+import { TRIAGE_WARNINGS } from '../types';
+import { audioAlert } from '../lib/audioAlert';
+import { TriageIcon } from '../components/TriageIcon';
+import { DirectionalDiagnosisCard } from '../components/DirectionalDiagnosisCard';
 import {
   ArrowLeft,
   Download,
   CheckCircle2,
   FileText,
-  Sparkles
+  Sparkles,
+  Volume2
 } from 'lucide-react';
 
 export const PatientDetailPage: React.FC = () => {
@@ -37,6 +42,12 @@ export const PatientDetailPage: React.FC = () => {
     }
 
     setIsSaving(true);
+    const warnInfo = TRIAGE_WARNINGS[overrideCategory];
+
+    if (overrideCategory === 'RED') {
+      audioAlert.playSeriousAlarm();
+    }
+
     const updated = updateEncounter(encounter.id, {
       category: overrideCategory,
       triageLabel:
@@ -47,6 +58,7 @@ export const PatientDetailPage: React.FC = () => {
           : overrideCategory === 'GREEN'
           ? 'Lower urgency'
           : 'Deceased',
+      plainLanguageSummary: `${warnInfo.code} :- ${warnInfo.title}. Clinician override assigned.`,
       clinicianOverridden: true,
       overrideReason: overrideReason.trim(),
       overriddenBy: 'Dr. A. Sharma (Reg #MC-44921)',
@@ -296,6 +308,14 @@ export const PatientDetailPage: React.FC = () => {
                 </div>
               </div>
 
+              {/* Directional Differential Diagnosis Card */}
+              <DirectionalDiagnosisCard
+                initialSymptoms={encounter.symptoms.selectedSymptoms || []}
+                initialOtherText={encounter.symptoms.additionalDetails || encounter.symptoms.otherSymptomsText || ''}
+                vitals={encounter.vitals}
+                category={encounter.category}
+              />
+
               {/* Medical History Summary Card */}
               <div className="bg-white border border-charcoal-200/90 rounded-2xl p-5 shadow-apple space-y-3">
                 <span className="text-xs font-bold text-charcoal-800 tracking-wide uppercase block border-b border-charcoal-100 pb-2">
@@ -437,27 +457,33 @@ export const PatientDetailPage: React.FC = () => {
           <div className="bg-white border border-charcoal-200/90 rounded-2xl p-6 shadow-apple space-y-5">
             <div>
               <span className="text-[10px] uppercase font-bold text-charcoal-400 tracking-wider block mb-1">
-                Triage Assessment
+                Triage Clinical Status
               </span>
-              <div className="flex items-center gap-2 mb-1">
-                <span
-                  className={`w-3 h-3 rounded-full ${
-                    isRed
-                      ? 'bg-triage-red'
-                      : isYellow
-                      ? 'bg-triage-yellow'
-                      : isGreen
-                      ? 'bg-triage-green'
-                      : 'bg-triage-black'
-                  }`}
-                />
+              <div className="flex items-center gap-3 mb-1">
+                <TriageIcon category={encounter.category} size="md" />
                 <h3 className="font-serif text-xl font-bold text-charcoal-900">
-                  {encounter.triageLabel}
+                  {TRIAGE_WARNINGS[encounter.category]?.code} :- {TRIAGE_WARNINGS[encounter.category]?.title}
                 </h3>
               </div>
-              <p className="text-xs text-charcoal-600">
+              <p className="text-xs text-charcoal-600 mt-2">
                 {encounter.plainLanguageSummary}
               </p>
+              {encounter.category === 'RED' && (
+                <div className="mt-3 p-2.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-[11px] font-semibold flex items-center justify-between">
+                  <span className="flex items-center gap-1.5">
+                    <TriageIcon category="RED" size="xs" badge={false} />
+                    <span>Serious 5-10 min treatment window</span>
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => audioAlert.playSeriousAlarm()}
+                    className="underline hover:text-rose-950 flex items-center gap-1"
+                  >
+                    <Volume2 className="w-3 h-3" />
+                    <span>Play Alarm</span>
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* Clinician Override Form */}
@@ -475,10 +501,10 @@ export const PatientDetailPage: React.FC = () => {
                   onChange={(e) => setOverrideCategory(e.target.value as TriageCategory)}
                   className="w-full px-3 py-2 rounded-xl border border-charcoal-200 bg-ivory-50 text-xs text-charcoal-900 font-semibold focus:outline-none focus:ring-2 focus:ring-forest-800/20 focus:border-forest-800"
                 >
-                  <option value="RED">Emergency (Red) - Immediate Attention</option>
-                  <option value="YELLOW">Urgent (Yellow) - Seen within hours</option>
-                  <option value="GREEN">Lower urgency (Green) - Routine consultation</option>
-                  <option value="BLACK">Deceased (Black) - Clinician Confirmed Only</option>
+                  <option value="RED">Red : Serious treatment with in 5-10 mins</option>
+                  <option value="YELLOW">Yellow : stable but serious 30min-1hr</option>
+                  <option value="GREEN">Green : normal condition treatment under 2-4 hour</option>
+                  <option value="BLACK">Black : patient dead</option>
                 </select>
               </div>
 
