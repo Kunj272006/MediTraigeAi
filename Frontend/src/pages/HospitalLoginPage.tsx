@@ -15,10 +15,10 @@ import {
 export const HospitalLoginPage: React.FC = () => {
   const navigate = useNavigate();
 
-  const [hospitalId, setHospitalId] = useState('HOSP-METRO-01');
-  const [staffId, setStaffId] = useState('dr.sharma@cityhospital.org');
+  const [hospitalId, setHospitalId] = useState('');
+  const [staffId, setStaffId] = useState('');
   const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(true);
+  const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
