@@ -17,7 +17,7 @@ export const HospitalLoginPage: React.FC = () => {
 
   const [hospitalId, setHospitalId] = useState('HOSP-METRO-01');
   const [staffId, setStaffId] = useState('dr.sharma@cityhospital.org');
-  const [password, setPassword] = useState('hospital123');
+  const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -218,8 +218,8 @@ export const HospitalLoginPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Remember Me + Forgot Password */}
-              <div className="flex items-center justify-between text-xs pt-1">
+              {/* Remember Me */}
+              <div className="flex items-center text-xs pt-1">
                 <label className="flex items-center gap-2 cursor-pointer select-none text-slate-600">
                   <input
                     type="checkbox"
@@ -229,13 +229,6 @@ export const HospitalLoginPage: React.FC = () => {
                   />
                   <span>Remember device</span>
                 </label>
-                <button
-                  type="button"
-                  onClick={() => alert('Password reset verification dispatched to registered administrator email.')}
-                  className="font-medium text-teal-700 hover:text-teal-900 hover:underline"
-                >
-                  Forgot password?
-                </button>
               </div>
 
               {/* Submit CTA */}
