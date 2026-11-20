@@ -7,7 +7,6 @@ import {
   Check,
   Building2,
   Calendar,
-  Sparkles,
   ArrowRight,
   ShieldCheck,
   Volume2
@@ -125,7 +124,7 @@ export const SubscriptionPage: React.FC = () => {
                 {/* Popular Badge */}
                 {plan.popular && (
                   <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-forest-800 text-ivory-100 text-[10px] font-bold uppercase tracking-wider shadow-sm flex items-center gap-1.5">
-                    <Sparkles className="w-3 h-3 text-amber-300" />
+                    <ShieldCheck className="w-3 h-3 text-forest-100" />
                     <span>Popular</span>
                   </div>
                 )}

@@ -27,7 +27,7 @@ import {
   HeartPulse,
   Radio,
   X,
-  Sparkles,
+  ShieldCheck,
   CheckCircle2
 } from 'lucide-react';
 
@@ -186,7 +186,7 @@ export const HospitalDashboardPage: React.FC = () => {
                   {session.hospitalId}
                 </span>
                 <span className="text-amber-300 font-semibold text-[11px] flex items-center gap-1">
-                  <Sparkles className="w-3 h-3 text-amber-300" />
+                  <ShieldCheck className="w-3 h-3 text-amber-300" />
                   {activePlanInfo.durationLabel}
                 </span>
               </div>

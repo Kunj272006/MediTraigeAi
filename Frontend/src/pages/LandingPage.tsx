@@ -9,17 +9,11 @@ import {
   Volume2,
   CheckCircle2,
   Lock,
-  Play,
-  Zap,
-  ShieldCheck,
-  Users,
-  Clock,
-  BarChart2,
-  ChevronRight,
   Stethoscope,
   Siren,
-  AlertTriangle,
-  EyeOff
+  Activity,
+  HeartPulse,
+  Building2
 } from 'lucide-react';
 
 export const LandingPage: React.FC = () => {
@@ -35,242 +29,193 @@ export const LandingPage: React.FC = () => {
   const handleTestSoundAlert = () => {
     setAlarmActive(true);
     audioAlert.playSeriousAlarm();
-    setTimeout(() => setAlarmActive(false), 2000);
+    setTimeout(() => setAlarmActive(false), 2400);
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] flex flex-col justify-between selection:bg-teal-500/15 selection:text-teal-900 font-sans">
+    <div className="min-h-screen bg-ivory-50 flex flex-col justify-between selection:bg-forest-100 selection:text-forest-900 font-sans">
       <Navbar />
 
       <main className="flex-1 w-full">
-        {/* Urgent Emergency Dispatch Top Banner */}
-        <div className="w-full bg-gradient-to-r from-red-600 via-rose-600 to-red-700 text-white text-xs py-2 px-4 shadow-inner">
-          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between w-full gap-2 text-center sm:text-left">
-            <div className="flex items-center gap-2 font-bold tracking-wide">
-              <span className="w-2.5 h-2.5 rounded-full bg-white animate-ping"></span>
-              <span>108 EMERGENCY MEDICAL DISPATCH GRID: Zero-registration instant ALS/BLS dispatch & hospital sync</span>
+        {/* ========================================================= */}
+        {/* CLINICAL EMERGENCY NOTICE STRIP */}
+        {/* ========================================================= */}
+        <aside aria-label="Emergency Care Notice" className="w-full bg-ivory-200 border-b border-charcoal-200 text-charcoal-800 text-xs py-2.5 px-4">
+          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-triage-red" />
+              <span className="font-semibold text-charcoal-900">Immediate Medical Emergency:</span>
+              <span className="text-charcoal-600 hidden md:inline">For chest pain, severe bleeding, or sudden unconsciousness, activate immediate ambulance dispatch.</span>
             </div>
             <Link
               to="/jeevan"
-              className="bg-white text-red-700 hover:bg-slate-100 font-extrabold px-3 py-1 rounded-full text-[11px] shadow whitespace-nowrap transition-transform hover:scale-105"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-triage-red hover:text-red-700 underline underline-offset-2 shrink-0"
             >
-              Request Ambulance / SOS →
+              <Siren className="w-3.5 h-3.5" />
+              <span>Launch 108 Emergency SOS</span>
+              <ArrowRight className="w-3 h-3" />
             </Link>
           </div>
-        </div>
-        
-        {/* ========================================================= */}
-        {/* HERO SECTION: Exact Match to User Redesign Mockup */}
-        {/* ========================================================= */}
-        <section className="relative w-full overflow-hidden min-h-[640px] lg:min-h-[720px] flex items-center">
-          
-          {/* Full-bleed Hospital Emergency Background Photography */}
-          <div className="absolute inset-0 z-0">
-            <img
-              src="/hero_emergency_bg.jpg"
-              alt="Hospital Emergency Department Triage Station"
-              className="w-full h-full object-cover object-center filter saturate-[0.95] brightness-[0.98]"
-            />
-            {/* Luminous light wash: white gradient on left giving maximum text readability */}
-            <div className="absolute inset-0 bg-gradient-to-r from-white via-white/95 via-45% to-white/20 sm:to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-transparent to-white/40" />
-          </div>
+        </aside>
 
-          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 w-full">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        {/* ========================================================= */}
+        {/* HERO SECTION: Calm, Authoritative, Apple Health Inspired */}
+        {/* ========================================================= */}
+        <section className="relative w-full border-b border-charcoal-200/80 bg-white py-14 lg:py-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
               
-              {/* Left Column (7 cols): Editorial Typography & Actions */}
-              <div className="lg:col-span-7 space-y-6 sm:space-y-7 animate-fade-in-up">
+              {/* Left Column (7 cols): Editorial Clinical Framing & Pathways */}
+              <div className="lg:col-span-7 space-y-6">
                 
-                {/* Accent Line + Tagline Kicker */}
-                <div className="flex items-center gap-2.5">
-                  <span className="w-7 h-[2px] bg-teal-800" />
-                  <span className="text-[11px] font-bold tracking-[0.22em] text-teal-800 uppercase">
-                    Enterprise Hospital Triage Software
-                  </span>
+                {/* Clinical Domain Kicker */}
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-forest-50 border border-forest-100 text-forest-800 text-xs font-medium">
+                  <Activity className="w-3.5 h-3.5 text-forest-700" />
+                  <span>Clinical Decision Support & Intake Triage</span>
                 </div>
 
-                {/* Main Headline */}
-                <h1 className="font-serif text-5xl sm:text-6xl lg:text-[68px] font-normal tracking-tight text-slate-900 leading-[1.05]">
+                {/* Brand Editorial Title */}
+                <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-normal tracking-tight text-charcoal-950 leading-[1.12]">
                   Right Care, <br />
-                  at the <span className="italic font-serif text-[#0E7A68]">Right Time.</span>
+                  at the <span className="italic font-serif text-forest-700">Right Time.</span>
                 </h1>
 
-                {/* Subtitle Paragraph */}
-                <p className="text-sm sm:text-base text-slate-600 max-w-lg font-normal leading-relaxed">
-                  Clinical emergency triage platform to prioritize critical patients and monitor live telemetry.
+                {/* Objective Clinical Description */}
+                <p className="text-base sm:text-lg text-charcoal-700 max-w-xl font-normal leading-relaxed">
+                  A clinical triage system engineered to stratify patient urgency, identify potential critical indicators, and coordinate seamless care routing between patients, ambulances, and emergency hospital departments.
                 </p>
 
-                {/* 3 Quick Highlight Badges */}
-                <div className="flex flex-wrap items-center gap-3 sm:gap-5 text-xs text-slate-700 font-semibold pt-1">
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-lg bg-teal-50 border border-teal-200/80 text-teal-700 flex items-center justify-center shrink-0">
-                      <Zap className="w-3.5 h-3.5 text-teal-700" />
-                    </div>
-                    <span>Real-time Triage</span>
-                  </div>
-                  
-                  <span className="hidden sm:inline text-slate-300">|</span>
-                  
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-lg bg-teal-50 border border-teal-200/80 text-teal-700 flex items-center justify-center shrink-0">
-                      <ShieldCheck className="w-3.5 h-3.5 text-teal-700" />
-                    </div>
-                    <span>Secure & Compliant</span>
-                  </div>
-                  
-                  <span className="hidden sm:inline text-slate-300">|</span>
-                  
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-lg bg-teal-50 border border-teal-200/80 text-teal-700 flex items-center justify-center shrink-0">
-                      <Users className="w-3.5 h-3.5 text-teal-700" />
-                    </div>
-                    <span>Hospital Teams</span>
-                  </div>
-                </div>
-
-                {/* Action Buttons Row */}
-                <div className="flex flex-wrap items-center gap-3.5 pt-2">
+                {/* Primary Action Buttons */}
+                <div className="flex flex-wrap items-center gap-3 pt-2">
                   <Link
-                    to="/jeevan"
-                    className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-gradient-to-r from-red-600 via-rose-600 to-red-700 text-white text-xs sm:text-sm font-extrabold hover:from-red-500 hover:to-red-600 shadow-lg shadow-red-600/30 transition-all hover:scale-105 group animate-pulse"
+                    to="/assess"
+                    className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-forest-800 text-ivory-50 text-sm font-semibold hover:bg-forest-900 shadow-xs transition-all group"
                   >
-                    <span>🚨</span>
-                    <span>108 Emergency Response (Instant SOS)</span>
-                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                    <Stethoscope className="w-4 h-4 text-forest-100" />
+                    <span>Begin Symptom Assessment</span>
+                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
                   </Link>
 
                   <Link
                     to={session ? "/staff/dashboard" : "/login"}
-                    className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[#0B3B36] text-white text-xs sm:text-sm font-semibold hover:bg-[#072623] shadow-md hover:shadow-lg transition-all group"
+                    className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-ivory-100 text-charcoal-800 text-sm font-medium hover:bg-ivory-200 border border-charcoal-300 transition-all"
                   >
-                    <Lock className="w-4 h-4 text-emerald-300" />
-                    <span>{session ? "Open Triage Queue" : "Hospital Sign In"}</span>
-                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                    <Lock className="w-4 h-4 text-charcoal-500" />
+                    <span>{session ? "Open Triage Queue" : "Hospital Staff Login"}</span>
                   </Link>
 
                   <button
                     type="button"
                     onClick={handleTestSoundAlert}
-                    className={`inline-flex items-center gap-2 px-5 py-3.5 rounded-full border text-xs sm:text-sm font-semibold transition-all backdrop-blur-sm ${
+                    className={`inline-flex items-center gap-2 px-4 py-3.5 rounded-full border text-xs sm:text-sm font-medium transition-all ${
                       alarmActive
-                        ? 'bg-rose-100 border-rose-500 text-rose-800 animate-pulse'
-                        : 'bg-white/90 border-slate-300 text-slate-800 hover:bg-white shadow-xs'
+                        ? 'bg-triage-red-light border-triage-red text-triage-red'
+                        : 'bg-white border-charcoal-200 text-charcoal-700 hover:bg-ivory-50'
                     }`}
-                    title="Hear audible chime triggered when a serious condition is detected"
+                    title="Preview the high-acuity acoustic alert emitted when critical conditions are identified"
                   >
-                    <Play className={`w-3.5 h-3.5 ${alarmActive ? 'text-rose-600 animate-bounce' : 'text-slate-800 fill-slate-800'}`} />
-                    <span>{alarmActive ? 'Playing Siren...' : 'Test Sound Alert'}</span>
+                    {alarmActive ? (
+                      <>
+                        <Volume2 className="w-4 h-4 text-triage-red" />
+                        <span>Acoustic Chime Active...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Volume2 className="w-4 h-4 text-charcoal-500" />
+                        <span>Test Alert Chime</span>
+                      </>
+                    )}
                   </button>
                 </div>
 
-                {/* Trust Proof Stats Row */}
-                <div className="flex items-center gap-6 sm:gap-8 pt-4 border-t border-slate-200/80 max-w-lg">
-                  <div>
-                    <span className="font-sans font-bold text-lg sm:text-xl text-slate-900 block tracking-tight">500+</span>
-                    <span className="text-[11px] text-slate-500 font-medium">Hospitals</span>
+                {/* Clinical Trust & Safety Standards */}
+                <div className="pt-6 border-t border-charcoal-200 flex flex-wrap items-center gap-6 text-xs text-charcoal-600">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-forest-700 shrink-0" />
+                    <span>ESI / MTS Protocol Aligned</span>
                   </div>
-                  <div className="h-8 w-[1px] bg-slate-200" />
-                  <div>
-                    <span className="font-sans font-bold text-lg sm:text-xl text-slate-900 block tracking-tight">2M+</span>
-                    <span className="text-[11px] text-slate-500 font-medium">Patients</span>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-forest-700 shrink-0" />
+                    <span>Real-time Voice & Vitals Input</span>
                   </div>
-                  <div className="h-8 w-[1px] bg-slate-200" />
-                  <div>
-                    <span className="font-sans font-bold text-lg sm:text-xl text-slate-900 block tracking-tight">99.9%</span>
-                    <span className="text-[11px] text-slate-500 font-medium">Uptime</span>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-forest-700 shrink-0" />
+                    <span>Zero Data Resale</span>
                   </div>
                 </div>
 
               </div>
 
-              {/* Right Column (5 cols): 4 Floating Frosted Glass Urgency Cards */}
-              <div className="lg:col-span-5 space-y-3.5 max-w-md ml-auto w-full animate-fade-in-up animation-delay-150">
-                
-                {/* Urgency Card 1: Red */}
-                <div className="backdrop-blur-md bg-black/45 hover:bg-black/55 border border-rose-500/40 rounded-2xl p-4 text-white shadow-2xl transition-all duration-300 group">
-                  <div className="flex items-start gap-3.5">
-                    <div className="w-10 h-10 rounded-xl bg-rose-500/25 border border-rose-400/50 flex items-center justify-center shrink-0 mt-0.5 group-hover:scale-105 transition-transform">
-                      <Siren className="w-5 h-5 text-rose-300 animate-pulse" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between mb-1">
-                        <div className="flex items-center gap-2">
-                          <span className="font-bold text-white text-sm">Red</span>
-                          <span className="text-[10px] uppercase font-bold text-rose-300 bg-rose-950/80 border border-rose-500/50 px-2 py-0.5 rounded-full">
-                            5-10 MINS
-                          </span>
-                        </div>
-                        <ChevronRight className="w-4 h-4 text-white/50 group-hover:translate-x-0.5 transition-transform" />
+              {/* Right Column (5 cols): Clinical Triage Matrix Cards */}
+              <div className="lg:col-span-5 space-y-3">
+                <div className="flex items-center justify-between pb-1">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-charcoal-500">
+                    Acuity Stratification Levels
+                  </span>
+                  <span className="text-xs text-charcoal-500">Target Care Windows</span>
+                </div>
+
+                {/* Level 1: Red */}
+                <div className="bg-white border border-triage-red/30 rounded-2xl p-4 shadow-subtle hover:border-triage-red/50 transition-colors">
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-3.5 h-3.5 rounded-full bg-triage-red shrink-0" />
+                      <div>
+                        <span className="font-semibold text-charcoal-900 text-sm block">Red — Resuscitation</span>
+                        <span className="text-xs text-charcoal-600">Immediate threat to airway, breathing, or hemodynamic stability</span>
                       </div>
-                      <p className="font-medium text-slate-100 text-xs leading-snug">
-                        Immediate emergency resuscitation
-                      </p>
-                      <p className="text-[11px] text-rose-300/90 mt-0.5 flex items-center gap-1">
-                        <Volume2 className="w-3 h-3 text-rose-400 shrink-0" />
-                        <span>Workstation sound alert</span>
-                      </p>
                     </div>
+                    <span className="text-[11px] font-semibold text-triage-red bg-triage-red-light border border-triage-red-border px-2 py-0.5 rounded-md whitespace-nowrap">
+                      ≤ 10 Mins
+                    </span>
                   </div>
                 </div>
 
-                {/* Urgency Card 2: Yellow */}
-                <div className="backdrop-blur-md bg-black/45 hover:bg-black/55 border border-amber-500/40 rounded-2xl p-4 text-white shadow-2xl transition-all duration-300 group">
-                  <div className="flex items-start gap-3.5">
-                    <div className="w-10 h-10 rounded-xl bg-amber-500/25 border border-amber-400/50 flex items-center justify-center shrink-0 mt-0.5 group-hover:scale-105 transition-transform">
-                      <AlertTriangle className="w-5 h-5 text-amber-300" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="font-bold text-white text-sm">Yellow</span>
-                        <span className="text-[10px] uppercase font-bold text-amber-300 bg-amber-950/80 border border-amber-500/50 px-2 py-0.5 rounded-full">
-                          30 MIN-1 HR
-                        </span>
+                {/* Level 2: Yellow */}
+                <div className="bg-white border border-triage-yellow/40 rounded-2xl p-4 shadow-subtle hover:border-triage-yellow/60 transition-colors">
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-3.5 h-3.5 rounded-full bg-triage-yellow shrink-0" />
+                      <div>
+                        <span className="font-semibold text-charcoal-900 text-sm block">Yellow — Urgent Care</span>
+                        <span className="text-xs text-charcoal-600">Severe pain, abnormal vitals, or potential for rapid deterioration</span>
                       </div>
-                      <p className="text-xs text-slate-200/90 leading-snug">
-                        Priority urgent examination
-                      </p>
                     </div>
+                    <span className="text-[11px] font-semibold text-amber-800 bg-triage-yellow-light border border-triage-yellow-border px-2 py-0.5 rounded-md whitespace-nowrap">
+                      30–60 Mins
+                    </span>
                   </div>
                 </div>
 
-                {/* Urgency Card 3: Green */}
-                <div className="backdrop-blur-md bg-black/45 hover:bg-black/55 border border-emerald-500/40 rounded-2xl p-4 text-white shadow-2xl transition-all duration-300 group">
-                  <div className="flex items-start gap-3.5">
-                    <div className="w-10 h-10 rounded-xl bg-emerald-500/25 border border-emerald-400/50 flex items-center justify-center shrink-0 mt-0.5 group-hover:scale-105 transition-transform">
-                      <Stethoscope className="w-5 h-5 text-emerald-300" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="font-bold text-white text-sm">Green</span>
-                        <span className="text-[10px] uppercase font-bold text-emerald-300 bg-emerald-950/80 border border-emerald-500/50 px-2 py-0.5 rounded-full">
-                          2-4 HOURS
-                        </span>
+                {/* Level 3: Green */}
+                <div className="bg-white border border-triage-green/30 rounded-2xl p-4 shadow-subtle hover:border-triage-green/50 transition-colors">
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-3.5 h-3.5 rounded-full bg-triage-green shrink-0" />
+                      <div>
+                        <span className="font-semibold text-charcoal-900 text-sm block">Green — Standard Care</span>
+                        <span className="text-xs text-charcoal-600">Stable presentation suitable for outpatient evaluation or general OPD</span>
                       </div>
-                      <p className="text-xs text-slate-200/90 leading-snug">
-                        Standard consultation queue
-                      </p>
                     </div>
+                    <span className="text-[11px] font-semibold text-forest-800 bg-forest-50 border border-forest-100 px-2 py-0.5 rounded-md whitespace-nowrap">
+                      2–4 Hours
+                    </span>
                   </div>
                 </div>
 
-                {/* Urgency Card 4: Black */}
-                <div className="backdrop-blur-md bg-black/45 hover:bg-black/55 border border-white/20 rounded-2xl p-4 text-white shadow-2xl transition-all duration-300 group">
-                  <div className="flex items-start gap-3.5">
-                    <div className="w-10 h-10 rounded-xl bg-slate-700/40 border border-slate-500/50 flex items-center justify-center shrink-0 mt-0.5 group-hover:scale-105 transition-transform">
-                      <EyeOff className="w-5 h-5 text-slate-300" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="font-bold text-white text-sm">Black</span>
-                        <span className="text-[10px] uppercase font-bold text-slate-300 bg-slate-900/90 border border-slate-600 px-2 py-0.5 rounded-full">
-                          DECEASED
-                        </span>
+                {/* Level 4: Black */}
+                <div className="bg-white border border-charcoal-200 rounded-2xl p-4 shadow-subtle">
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-3.5 h-3.5 rounded-full bg-charcoal-900 shrink-0" />
+                      <div>
+                        <span className="font-semibold text-charcoal-900 text-sm block">Black — Expectant / Clinician Documented</span>
+                        <span className="text-xs text-charcoal-600">Catastrophic non-salvageable injuries; documented by licensed clinician</span>
                       </div>
-                      <p className="text-xs text-slate-300/90 leading-snug">
-                        Clinician documented only
-                      </p>
                     </div>
+                    <span className="text-[11px] font-semibold text-charcoal-600 bg-ivory-100 border border-charcoal-200 px-2 py-0.5 rounded-md whitespace-nowrap">
+                      Document Only
+                    </span>
                   </div>
                 </div>
 
@@ -281,114 +226,219 @@ export const LandingPage: React.FC = () => {
         </section>
 
         {/* ========================================================= */}
-        {/* BOTTOM DARK FEATURE RIBBON (Dock Bar) */}
+        {/* INFORMATION ARCHITECTURE: How MediTriage Operates */}
         {/* ========================================================= */}
-        <section id="features" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 sm:-mt-8 relative z-20">
-          <div className="bg-[#062420] text-white rounded-3xl p-6 sm:p-7 shadow-2xl border border-teal-800/40 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-center">
-            
-            {/* Feature 1 */}
-            <div className="flex items-center gap-3.5">
-              <div className="w-10 h-10 rounded-2xl bg-teal-900/50 border border-teal-700/50 flex items-center justify-center shrink-0">
-                <Clock className="w-5 h-5 text-teal-300" />
-              </div>
-              <div>
-                <h4 className="font-sans font-bold text-sm text-white">Faster Response</h4>
-                <p className="text-xs text-teal-200/80">
-                  Immediate critical routing
-                </p>
-              </div>
-            </div>
-
-            {/* Feature 2 */}
-            <div className="flex items-center gap-3.5">
-              <div className="w-10 h-10 rounded-2xl bg-teal-900/50 border border-teal-700/50 flex items-center justify-center shrink-0">
-                <BarChart2 className="w-5 h-5 text-teal-300" />
-              </div>
-              <div>
-                <h4 className="font-sans font-bold text-sm text-white">Better Workflow</h4>
-                <p className="text-xs text-teal-200/80">
-                  Streamlined patient flow
-                </p>
-              </div>
-            </div>
-
-            {/* Feature 3 */}
-            <div className="flex items-center gap-3.5">
-              <div className="w-10 h-10 rounded-2xl bg-teal-900/50 border border-teal-700/50 flex items-center justify-center shrink-0">
-                <ShieldCheck className="w-5 h-5 text-teal-300" />
-              </div>
-              <div>
-                <h4 className="font-sans font-bold text-sm text-white">Secure & Compliant</h4>
-                <p className="text-xs text-teal-200/80">
-                  Encrypted clinical data
-                </p>
-              </div>
-            </div>
-
-            {/* Feature 4 */}
-            <div className="flex items-center gap-3.5">
-              <div className="w-10 h-10 rounded-2xl bg-teal-900/50 border border-teal-700/50 flex items-center justify-center shrink-0">
-                <Users className="w-5 h-5 text-teal-300" />
-              </div>
-              <div>
-                <h4 className="font-sans font-bold text-sm text-white">Hospital Teams</h4>
-                <p className="text-xs text-teal-200/80">
-                  Built for doctors & nurses
-                </p>
-              </div>
-            </div>
-
-          </div>
-        </section>
-
-        {/* ========================================================= */}
-        {/* SUBSCRIPTION & PRICING SECTION (#pricing) */}
-        {/* ========================================================= */}
-        <section id="pricing" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-8">
-          <div className="text-center max-w-xl mx-auto space-y-2">
-            <span className="text-xs uppercase font-bold tracking-wider text-teal-800 bg-teal-50 border border-teal-200 px-3 py-0.5 rounded-full">
-              Hospital Licensing
+        <section id="how-it-works" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
+          <div className="max-w-2xl mb-12">
+            <span className="text-xs font-bold uppercase tracking-wider text-forest-800 block mb-2">
+              Clinical Workflow
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-medium text-slate-900">
-              Subscription Plans
+            <h2 className="font-serif text-3xl sm:text-4xl font-normal text-charcoal-950 tracking-tight">
+              Structured assessment from symptom onset to emergency handoff.
             </h2>
+            <p className="text-sm sm:text-base text-charcoal-600 mt-3 leading-relaxed">
+              Every phase of the intake workflow prioritizes clarity, non-alarming communication, and actionable next steps.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            {/* Step 1 */}
+            <div className="bg-white border border-charcoal-200 rounded-3xl p-7 shadow-apple flex flex-col justify-between">
+              <div>
+                <div className="w-10 h-10 rounded-2xl bg-forest-50 border border-forest-100 text-forest-800 flex items-center justify-center font-bold text-sm mb-5">
+                  1
+                </div>
+                <h3 className="font-serif text-xl font-medium text-charcoal-950 mb-2">
+                  Symptom & Vitals Intake
+                </h3>
+                <p className="text-xs sm:text-sm text-charcoal-600 leading-relaxed">
+                  Enter symptoms using curated clinical picklists, detailed medical descriptions, or hands-free voice transcription. Record physiological vitals including blood pressure, pulse, SpO2, and temperature.
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-charcoal-100 text-xs font-medium text-forest-800">
+                Supports Speech-to-Text & Vitals
+              </div>
+            </div>
+
+            {/* Step 2 */}
+            <div className="bg-white border border-charcoal-200 rounded-3xl p-7 shadow-apple flex flex-col justify-between">
+              <div>
+                <div className="w-10 h-10 rounded-2xl bg-forest-50 border border-forest-100 text-forest-800 flex items-center justify-center font-bold text-sm mb-5">
+                  2
+                </div>
+                <h3 className="font-serif text-xl font-medium text-charcoal-950 mb-2">
+                  Acuity Stratification
+                </h3>
+                <p className="text-xs sm:text-sm text-charcoal-600 leading-relaxed">
+                  The clinical evaluation engine analyzes input against evidence-based red flags and vitals anomalies to categorize care urgency without ever asserting a conclusive medical diagnosis.
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-charcoal-100 text-xs font-medium text-forest-800">
+                Transparent Decision Support Rules
+              </div>
+            </div>
+
+            {/* Step 3 */}
+            <div className="bg-white border border-charcoal-200 rounded-3xl p-7 shadow-apple flex flex-col justify-between">
+              <div>
+                <div className="w-10 h-10 rounded-2xl bg-forest-50 border border-forest-100 text-forest-800 flex items-center justify-center font-bold text-sm mb-5">
+                  3
+                </div>
+                <h3 className="font-serif text-xl font-medium text-charcoal-950 mb-2">
+                  Coordinated Care Routing
+                </h3>
+                <p className="text-xs sm:text-sm text-charcoal-600 leading-relaxed">
+                  Direct patients to appropriate hospital departments (Trauma, Cardiology, General Medicine), activate 108 emergency ambulance dispatch, or stream intake records into the hospital triage queue.
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-charcoal-100 text-xs font-medium text-forest-800">
+                Bed Telemetry & Ambulance Handoff
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        {/* ========================================================= */}
+        {/* TWO DEDICATED CARE PORTALS: Patient vs Hospital Workstation */}
+        {/* ========================================================= */}
+        <section className="bg-white border-y border-charcoal-200 py-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+              
+              {/* Card A: Patient & Family Care Pathway */}
+              <div className="p-8 rounded-3xl bg-ivory-50 border border-charcoal-200 flex flex-col justify-between">
+                <div>
+                  <div className="w-10 h-10 rounded-2xl bg-white border border-charcoal-200 flex items-center justify-center text-forest-800 mb-4">
+                    <HeartPulse className="w-5 h-5 text-forest-800" />
+                  </div>
+                  <h3 className="font-serif text-2xl font-normal text-charcoal-950 mb-2">
+                    For Patients & Families
+                  </h3>
+                  <p className="text-xs sm:text-sm text-charcoal-600 leading-relaxed mb-6">
+                    Assess current health complaints, understand potential urgency levels, receive practical immediate guidance, and locate nearest trauma facilities with open beds.
+                  </p>
+                  <ul className="space-y-2.5 text-xs text-charcoal-700">
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-forest-700 shrink-0" />
+                      <span>Confidential self-assessment with voice dictation</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-forest-700 shrink-0" />
+                      <span>Real-time GPS ambulance coordination via 108 SOS</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-forest-700 shrink-0" />
+                      <span>Transparent clinical timeframes and specialist suggestions</span>
+                    </li>
+                  </ul>
+                </div>
+                <div className="pt-8">
+                  <Link
+                    to="/assess"
+                    className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-forest-800 text-ivory-50 text-xs sm:text-sm font-semibold hover:bg-forest-900 transition-colors"
+                  >
+                    <span>Check Symptoms Now</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              </div>
+
+              {/* Card B: Hospital & Emergency Department Portal */}
+              <div className="p-8 rounded-3xl bg-ivory-50 border border-charcoal-200 flex flex-col justify-between">
+                <div>
+                  <div className="w-10 h-10 rounded-2xl bg-white border border-charcoal-200 flex items-center justify-center text-forest-800 mb-4">
+                    <Building2 className="w-5 h-5 text-forest-800" />
+                  </div>
+                  <h3 className="font-serif text-2xl font-normal text-charcoal-950 mb-2">
+                    For Emergency Departments & Clinical Staff
+                  </h3>
+                  <p className="text-xs sm:text-sm text-charcoal-600 leading-relaxed mb-6">
+                    Real-time digital intake desk for triage nurses and doctors. Live incoming ambulance telemetry, bed occupancy management, and acoustic alerts for critical arrivals.
+                  </p>
+                  <ul className="space-y-2.5 text-xs text-charcoal-700">
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-forest-700 shrink-0" />
+                      <span>Active triage queue prioritized by clinical urgency</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-forest-700 shrink-0" />
+                      <span>Acoustic workstation alarms for Red-category arrivals</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-forest-700 shrink-0" />
+                      <span>Secure staff authentication and session management</span>
+                    </li>
+                  </ul>
+                </div>
+                <div className="pt-8">
+                  <Link
+                    to="/login"
+                    className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-charcoal-900 text-ivory-50 text-xs sm:text-sm font-semibold hover:bg-black transition-colors"
+                  >
+                    <Lock className="w-3.5 h-3.5 text-charcoal-300" />
+                    <span>Hospital Staff Workstation</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        {/* ========================================================= */}
+        {/* SUBSCRIPTION & FACILITY LICENSING */}
+        {/* ========================================================= */}
+        <section id="licensing" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="max-w-xl mx-auto text-center mb-12">
+            <span className="text-xs font-bold uppercase tracking-wider text-forest-800 block mb-2">
+              Facility Deployment
+            </span>
+            <h2 className="font-serif text-3xl font-normal text-charcoal-950 tracking-tight">
+              Hospital Workstation Licensing
+            </h2>
+            <p className="text-xs sm:text-sm text-charcoal-600 mt-2">
+              Straightforward subscriptions for primary health centers, district hospitals, and trauma facilities.
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
             {SUBSCRIPTION_PLANS.map((plan) => (
               <div
                 key={plan.id}
-                className={`rounded-3xl p-6 flex flex-col justify-between transition-all ${
+                className={`rounded-3xl p-6 flex flex-col justify-between bg-white border ${
                   plan.popular
-                    ? 'bg-white border-2 border-teal-800 shadow-xl ring-4 ring-teal-50'
-                    : 'bg-white border border-slate-200 shadow-sm hover:shadow-md'
+                    ? 'border-forest-800 ring-1 ring-forest-800 shadow-apple'
+                    : 'border-charcoal-200 shadow-subtle'
                 }`}
               >
                 <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs uppercase font-bold text-slate-500">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-semibold uppercase text-charcoal-500">
                       {plan.durationLabel}
                     </span>
                     {plan.savings && (
-                      <span className="text-[10px] font-bold text-teal-800 bg-teal-50 border border-teal-200 px-2 py-0.5 rounded-full">
+                      <span className="text-[11px] font-semibold text-forest-800 bg-forest-50 border border-forest-100 px-2 py-0.5 rounded-full">
                         {plan.savings}
                       </span>
                     )}
                   </div>
 
-                  <div className="flex items-baseline gap-1 mb-2">
-                    <span className="font-serif text-3xl sm:text-4xl font-medium text-slate-900">
+                  <div className="flex items-baseline gap-1 mb-4">
+                    <span className="font-serif text-3xl font-medium text-charcoal-950">
                       {plan.priceFormatted}
                     </span>
-                    <span className="text-xs text-slate-500">
+                    <span className="text-xs text-charcoal-500">
                       / {plan.durationLabel}
                     </span>
                   </div>
 
-                  <div className="space-y-2 pt-4 border-t border-slate-100 text-xs text-slate-700">
+                  <div className="space-y-2.5 pt-4 border-t border-charcoal-100 text-xs text-charcoal-700">
                     {plan.features.map((feat, idx) => (
                       <div key={idx} className="flex items-center gap-2">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-teal-700 shrink-0" />
+                        <CheckCircle2 className="w-3.5 h-3.5 text-forest-700 shrink-0" />
                         <span>{feat}</span>
                       </div>
                     ))}
@@ -398,13 +448,13 @@ export const LandingPage: React.FC = () => {
                 <div className="pt-6">
                   <Link
                     to="/staff/subscription"
-                    className={`w-full py-2.5 px-4 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all ${
+                    className={`w-full py-2.5 px-4 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors ${
                       plan.popular
-                        ? 'bg-[#0B3B36] text-white hover:bg-[#072623] shadow-sm'
-                        : 'bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-200'
+                        ? 'bg-forest-800 text-ivory-50 hover:bg-forest-900'
+                        : 'bg-ivory-100 text-charcoal-800 hover:bg-ivory-200 border border-charcoal-200'
                     }`}
                   >
-                    <span>Subscribe {plan.priceFormatted}</span>
+                    <span>License {plan.priceFormatted}</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
@@ -415,29 +465,52 @@ export const LandingPage: React.FC = () => {
 
       </main>
 
-      {/* Safety Notice & Premium Brand Footer */}
-      <footer className="w-full border-t border-slate-200 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-          <div className="flex items-center gap-3">
-            <img
-              src="/logo_horizontal.png"
-              alt="MEDITRIAGE AI"
-              className="h-7 w-auto object-contain"
-              style={{ imageRendering: '-webkit-optimize-contrast', transform: 'translateZ(0)' }}
-            />
-            <span>•</span>
-            <span>© 2026 MEDITRIAGE AI Healthcare</span>
+      {/* ========================================================= */}
+      {/* MEDICAL TRUST & ACCESSIBILITY DISCLAIMER FOOTER */}
+      {/* ========================================================= */}
+      <footer className="w-full border-t border-charcoal-200 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+          
+          {/* Statutory Clinical Notice */}
+          <div className="p-4 rounded-2xl bg-ivory-100 border border-charcoal-200 text-xs text-charcoal-600 leading-relaxed">
+            <strong className="text-charcoal-900 font-semibold block mb-1">
+              Clinical Decision Support (CDS) Statutory Notice:
+            </strong>
+            MediTriage AI is a triage prioritization and healthcare navigation platform. It does not provide medical diagnoses, definitive clinical findings, or prescribe pharmacological treatments. All directional assessments are intended for informational prioritization only. In any emergency situation involving chest pain, severe shortness of breath, acute traumatic injury, or sudden neurologic deficits, call 108 or proceed to the nearest emergency department immediately.
           </div>
 
-          <div className="flex items-center gap-6 font-semibold">
-            <Link to="/login" className="hover:text-teal-900 transition-colors">
-              Hospital Login
-            </Link>
-            <Link to="/staff/subscription" className="hover:text-teal-900 transition-colors">
-              Plans
-            </Link>
-            <span className="text-slate-400">HIPAA Aligned</span>
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-charcoal-500">
+            <div className="flex items-center gap-3">
+              <img
+                src="/logo_horizontal.png"
+                alt="MEDITRIAGE AI"
+                className="h-7 w-auto object-contain"
+                style={{ imageRendering: '-webkit-optimize-contrast', transform: 'translateZ(0)' }}
+              />
+              <span>•</span>
+              <span>Clinical Triage System</span>
+            </div>
+
+            <div className="flex items-center gap-6 font-medium text-charcoal-700">
+              <Link to="/assess" className="hover:text-forest-800 transition-colors">
+                Symptom Triage
+              </Link>
+              <Link to="/jeevan" className="hover:text-triage-red transition-colors">
+                108 Emergency
+              </Link>
+              <Link to="/login" className="hover:text-forest-800 transition-colors">
+                Staff Portal
+              </Link>
+              <Link to="/staff/subscription" className="hover:text-forest-800 transition-colors">
+                Facility Plans
+              </Link>
+            </div>
           </div>
+
+          <div className="text-[11px] text-charcoal-400 text-center sm:text-left">
+            © 2026 MediTriage AI. All healthcare interfaces compliant with clinical data privacy standards.
+          </div>
+
         </div>
       </footer>
     </div>

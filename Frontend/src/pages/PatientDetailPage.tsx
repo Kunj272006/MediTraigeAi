@@ -11,7 +11,6 @@ import {
   Download,
   CheckCircle2,
   FileText,
-  Sparkles,
   Volume2
 } from 'lucide-react';
 
@@ -347,7 +346,7 @@ export const PatientDetailPage: React.FC = () => {
               <div className="bg-forest-50/70 border border-forest-100 rounded-2xl p-5 shadow-subtle space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-forest-800" />
+                    <FileText className="w-4 h-4 text-forest-800" />
                     <span className="text-xs font-bold text-forest-900 uppercase tracking-wide">
                       AI Clinical Handover Note (Gemini Assisted)
                     </span>

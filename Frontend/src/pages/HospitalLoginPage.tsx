@@ -155,63 +155,66 @@ export const HospitalLoginPage: React.FC = () => {
             )}
 
             {/* Form */}
-            <form onSubmit={handleLogin} className="space-y-4 text-xs">
+            <form onSubmit={handleLogin} autoComplete="off" className="space-y-4 text-xs">
               
               {/* Input 1: Unique Hospital ID */}
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                <label className="block text-xs font-semibold text-charcoal-700 mb-1.5">
                   Unique Hospital ID
                 </label>
                 <div className="relative">
-                  <Building2 className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5 pointer-events-none" />
+                  <Building2 className="w-4 h-4 text-charcoal-400 absolute left-3.5 top-3.5 pointer-events-none" />
                   <input
                     type="text"
                     value={hospitalId}
                     onChange={(e) => setHospitalId(e.target.value.toUpperCase())}
-                    placeholder="e.g. HOSP-METRO-01"
+                    placeholder="Enter Hospital ID (e.g. HOSP-METRO-01)"
+                    autoComplete="off"
                     required
-                    className="w-full bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-900 font-mono placeholder:text-slate-400 focus:outline-none focus:border-teal-700 focus:ring-3 focus:ring-teal-700/10 shadow-xs transition-all"
+                    className="w-full bg-white border border-charcoal-200 rounded-xl pl-10 pr-4 py-3 text-sm text-charcoal-900 font-mono placeholder:text-charcoal-400 focus:outline-none focus:border-forest-800 focus:ring-2 focus:ring-forest-800/15 shadow-xs transition-all"
                   />
                 </div>
               </div>
 
               {/* Input 2: Staff ID / Email */}
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                <label className="block text-xs font-semibold text-charcoal-700 mb-1.5">
                   Staff ID / Care Team Email
                 </label>
                 <div className="relative">
-                  <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5 pointer-events-none" />
+                  <Mail className="w-4 h-4 text-charcoal-400 absolute left-3.5 top-3.5 pointer-events-none" />
                   <input
                     type="text"
                     value={staffId}
                     onChange={(e) => setStaffId(e.target.value)}
-                    placeholder="dr.sharma@cityhospital.org"
+                    placeholder="Enter Staff ID or Email (e.g. dr.sharma@hospital.org)"
+                    autoComplete="off"
                     required
-                    className="w-full bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-teal-700 focus:ring-3 focus:ring-teal-700/10 shadow-xs transition-all"
+                    className="w-full bg-white border border-charcoal-200 rounded-xl pl-10 pr-4 py-3 text-sm text-charcoal-900 placeholder:text-charcoal-400 focus:outline-none focus:border-forest-800 focus:ring-2 focus:ring-forest-800/15 shadow-xs transition-all"
                   />
                 </div>
               </div>
 
               {/* Input 3: Password */}
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                <label className="block text-xs font-semibold text-charcoal-700 mb-1.5">
                   Password
                 </label>
                 <div className="relative">
-                  <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5 pointer-events-none" />
+                  <Lock className="w-4 h-4 text-charcoal-400 absolute left-3.5 top-3.5 pointer-events-none" />
                   <input
                     type={showPassword ? 'text' : 'password'}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="••••••••••••"
+                    placeholder="Enter workstation password"
+                    autoComplete="new-password"
                     required
-                    className="w-full bg-white border border-slate-200 rounded-xl pl-10 pr-10 py-3 text-sm text-slate-900 font-mono placeholder:text-slate-400 focus:outline-none focus:border-teal-700 focus:ring-3 focus:ring-teal-700/10 shadow-xs transition-all"
+                    className="w-full bg-white border border-charcoal-200 rounded-xl pl-10 pr-10 py-3 text-sm text-charcoal-900 font-mono placeholder:text-charcoal-400 focus:outline-none focus:border-forest-800 focus:ring-2 focus:ring-forest-800/15 shadow-xs transition-all"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3.5 top-3.5 text-slate-400 hover:text-slate-700 p-0.5 rounded transition-colors"
+                    className="absolute right-3.5 top-3.5 text-charcoal-400 hover:text-charcoal-700 p-0.5 rounded transition-colors"
                   >
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
@@ -220,12 +223,12 @@ export const HospitalLoginPage: React.FC = () => {
 
               {/* Remember Me */}
               <div className="flex items-center text-xs pt-1">
-                <label className="flex items-center gap-2 cursor-pointer select-none text-slate-600">
+                <label className="flex items-center gap-2 cursor-pointer select-none text-charcoal-600">
                   <input
                     type="checkbox"
                     checked={rememberMe}
                     onChange={(e) => setRememberMe(e.target.checked)}
-                    className="w-4 h-4 rounded text-teal-700 border-slate-300 focus:ring-teal-700"
+                    className="w-4 h-4 rounded text-forest-800 border-charcoal-300 focus:ring-forest-800"
                   />
                   <span>Remember device</span>
                 </label>
@@ -235,7 +238,7 @@ export const HospitalLoginPage: React.FC = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-3.5 px-6 rounded-xl bg-teal-800 hover:bg-teal-900 text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-apple hover:shadow-apple-hover transition-all mt-3 disabled:opacity-50 group"
+                className="w-full py-3.5 px-6 rounded-xl bg-forest-800 hover:bg-forest-900 text-ivory-50 font-semibold text-sm flex items-center justify-center gap-2 shadow-apple hover:shadow-apple-hover transition-all mt-3 disabled:opacity-50 group"
               >
                 <span>{isLoading ? 'Verifying Credentials...' : 'Sign In to Workstation'}</span>
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />

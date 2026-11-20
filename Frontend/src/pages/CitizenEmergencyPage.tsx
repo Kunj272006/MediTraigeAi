@@ -18,7 +18,6 @@ import {
   Check,
   ExternalLink,
   X,
-  Sparkles
 } from 'lucide-react';
 
 interface CitizenEmergencyPageProps {
@@ -136,7 +135,6 @@ export const CitizenEmergencyPage: React.FC<CitizenEmergencyPageProps> = ({
   const lastHeardTextRef = useRef<string>('');
   const speechLangRef = useRef<'en-IN' | 'hi-IN' | 'en-US'>(speechLang);
   const restartTimerRef = useRef<any>(null);
-  const simulationTimerRef = useRef<any>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const opdSectionRef = useRef<HTMLDivElement | null>(null);
 
@@ -199,7 +197,6 @@ export const CitizenEmergencyPage: React.FC<CitizenEmergencyPageProps> = ({
 
     return () => {
       stopVoiceDictation();
-      if (simulationTimerRef.current) clearInterval(simulationTimerRef.current);
       if (restartTimerRef.current) clearTimeout(restartTimerRef.current);
     };
   }, [language]);
@@ -421,7 +418,6 @@ export const CitizenEmergencyPage: React.FC<CitizenEmergencyPageProps> = ({
 
   // Start real microphone recording & live speech-to-text typing (Synchronous with click)
   const startVoiceDictation = () => {
-    if (simulationTimerRef.current) clearInterval(simulationTimerRef.current);
     if (restartTimerRef.current) clearTimeout(restartTimerRef.current);
     setErrorMsg(null);
 
@@ -534,35 +530,6 @@ export const CitizenEmergencyPage: React.FC<CitizenEmergencyPageProps> = ({
     setShowLocationEditor(false);
   };
 
-  // Test Demo Voice Dictation (Simulates live typing in real time)
-  const handleSimulateVoice = () => {
-    stopVoiceDictation();
-    if (simulationTimerRef.current) clearInterval(simulationTimerRef.current);
-    setIsRecording(true);
-    setTranscript('');
-    setErrorMsg(null);
-
-    const demoPhrase =
-      speechLang === 'hi-IN'
-        ? 'सड़क दुर्घटना हो गई है। मरीज को गंभीर चोट लगी है और बहुत खून बह रहा है। तुरंत एम्बुलेंस भेजें।'
-        : 'My father is having chest pain and he is not able to breathe properly. We are at Civil Lines, Dehradun. We need an ambulance immediately.';
-
-    const words = demoPhrase.split(' ');
-    let currentIdx = 0;
-    let accumulated = '';
-
-    simulationTimerRef.current = setInterval(() => {
-      if (currentIdx < words.length) {
-        accumulated += (currentIdx > 0 ? ' ' : '') + words[currentIdx];
-        setTranscript(accumulated);
-        setWordsHeardCount(currentIdx + 1);
-        currentIdx++;
-      } else {
-        clearInterval(simulationTimerRef.current);
-        setIsRecording(false);
-      }
-    }, 90);
-  };
 
   // 1-TAP FAST AMBULANCE DISPATCH
   const handleBookAmbulance = async () => {
@@ -953,18 +920,7 @@ export const CitizenEmergencyPage: React.FC<CitizenEmergencyPageProps> = ({
                         </div>
                       )}
 
-                      {!isRecording && (
-                        <div className="flex items-center gap-2 mt-1">
-                          <button
-                            type="button"
-                            onClick={handleSimulateVoice}
-                            className="text-xs font-bold text-slate-700 hover:text-slate-900 bg-white hover:bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-xl shadow-2xs transition flex items-center gap-1.5 cursor-pointer"
-                          >
-                            <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-                            <span>Test Voice Input (Demo)</span>
-                          </button>
-                        </div>
-                      )}
+                      {/* Real-time status display */}
                     </div>
                   </div>
                 </div>
