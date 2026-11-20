@@ -639,7 +639,7 @@ export const CitizenEmergencyPage: React.FC<CitizenEmergencyPageProps> = ({
         }
       };
       setActiveIncident(fallbackIncident);
-      setAssignedVehicle(fallbackVeh);
+      setAssignedVehicle(fallbackVeh as Vehicle);
       setAssignedHospital(fallbackHosp);
     } finally {
       setIsProcessing(false);

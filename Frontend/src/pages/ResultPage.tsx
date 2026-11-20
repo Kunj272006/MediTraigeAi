@@ -1,28 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Navbar } from '../components/Navbar';
 import { getEncounters } from '../lib/store';
 import { audioAlert } from '../lib/audioAlert';
 import { TRIAGE_WARNINGS, type EncounterRecord } from '../types';
-import { TriageIcon } from '../components/TriageIcon';
-import { DirectionalDiagnosisCard } from '../components/DirectionalDiagnosisCard';
 import {
-  RotateCcw,
-  Building2,
-  Volume2,
-  VolumeX,
-  Stethoscope,
-  Activity,
-  Printer,
-  Calendar,
-  Clock,
+  ArrowLeft,
   AlertTriangle,
-  ShieldCheck,
-  ArrowRight
+  Building2,
+  Phone,
+  CheckCircle2,
+  Printer,
+  Info,
+  Siren,
+  RotateCcw,
+  Volume2
 } from 'lucide-react';
 
 export const ResultPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [soundPlaying, setSoundPlaying] = useState(false);
 
   const encounters = getEncounters();
@@ -38,13 +35,13 @@ export const ResultPage: React.FC = () => {
     age: 48,
     gender: 'Male',
     contactNumber: '9876543210',
-    location: 'Delhi NCR',
+    location: 'Dehradun, Uttarakhand',
     symptoms: {
       selectedSymptoms: ['Chest pain', 'Breathing difficulty'],
-      otherSymptomsText: 'Acute retrosternal radiating pressure',
+      otherSymptomsText: 'Acute chest tightness and breathing discomfort',
       duration: '<24_hours',
       severity: 'Severe',
-      additionalDetails: 'Acute radiating chest tightness',
+      additionalDetails: 'Felt sudden pressure in chest after mild exertion',
     },
     vitals: {
       isBpMeasured: true,
@@ -69,18 +66,18 @@ export const ResultPage: React.FC = () => {
       noMedications: true,
       uploadedDocuments: [],
     },
-    plainLanguageSummary: 'High-acuity condition requiring urgent clinical evaluation in an emergency care setting.',
-    recommendedAction: 'Proceed immediately to high-acuity emergency resuscitation bay. Alert on-duty physician.',
+    plainLanguageSummary: 'Your reported symptoms indicate an urgent acute presentation that requires prompt clinical attention.',
+    recommendedAction: 'Seek medical help as soon as possible. Consider visiting the nearest hospital or calling for emergency assistance.',
     createdAt: new Date().toISOString(),
   };
 
   const encounter = encounters.find((e) => e.id === id) || encounters[0] || fallbackEncounter;
-
   const category = encounter.category || 'RED';
   const warning = TRIAGE_WARNINGS[category] || TRIAGE_WARNINGS.YELLOW;
   const isRed = category === 'RED';
+  const isYellow = category === 'YELLOW';
 
-  // Sound alert on serious condition!
+  // Sound alert for serious/red cases
   useEffect(() => {
     if (warning.isSerious || isRed) {
       setSoundPlaying(true);
@@ -90,341 +87,267 @@ export const ResultPage: React.FC = () => {
     }
   }, [category, isRed, warning.isSerious]);
 
-  const handleManualSoundToggle = () => {
-    if (soundPlaying) {
-      setSoundPlaying(false);
-    } else {
-      setSoundPlaying(true);
-      audioAlert.playSeriousAlarm();
-      setTimeout(() => setSoundPlaying(false), 2400);
-    }
-  };
-
-  // Formatted Submission Date and Time
-  const submittedDate = encounter.createdAt ? new Date(encounter.createdAt) : new Date();
-  const formattedDate = submittedDate.toLocaleDateString('en-IN', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-  });
-  const formattedTime = submittedDate.toLocaleTimeString('en-IN', {
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: true,
-  });
-
   return (
-    <div className="min-h-screen bg-ivory-50 flex flex-col justify-between selection:bg-forest-100 selection:text-forest-900 font-sans">
+    <div className="min-h-screen bg-[#F8FAFC] flex flex-col justify-between selection:bg-teal-500/20 selection:text-teal-900 font-sans text-slate-900 relative">
       <Navbar />
 
-      <main className="flex-1 max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12 w-full space-y-6">
+      {/* Subtle EKG Heartbeat Wave in the background (Matching Screen 3 in Mockup) */}
+      <div className="absolute top-24 right-8 sm:right-16 text-teal-100/35 pointer-events-none select-none hidden lg:block -z-0">
+        <svg width="240" height="90" viewBox="0 0 240 90" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M0 45h60l10-25 15 50 15-60 12 40 10-15 15 10h103" />
+        </svg>
+      </div>
+
+      <main className="flex-1 w-full max-w-4xl mx-auto px-4 py-8 sm:py-12 relative z-10 space-y-6">
         
-        {/* Urgent Serious Sound Alert Banner if RED / Serious */}
-        {(isRed || warning.isSerious) && (
-          <div className="p-4 sm:p-5 rounded-2xl bg-triage-red-light border border-triage-red-border text-charcoal-900 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-subtle">
-            <div className="flex items-start sm:items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-triage-red text-white flex items-center justify-center shrink-0">
-                <AlertTriangle className="w-5 h-5" />
-              </div>
-              <div>
-                <span className="font-semibold text-sm text-triage-red block">
-                  High-Priority Clinical Triage Level
-                </span>
-                <span className="text-xs text-charcoal-700">
-                  Target clinical care window is within 5–10 minutes. Workstation alert tone triggered.
-                </span>
-              </div>
-            </div>
+        {/* Subnav: ← Back */}
+        <div className="flex items-center justify-between">
+          <button
+            type="button"
+            onClick={() => navigate(-1)}
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-slate-900 transition-colors"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>Back</span>
+          </button>
 
-            <button
-              type="button"
-              onClick={handleManualSoundToggle}
-              className="px-3.5 py-1.5 rounded-full bg-white border border-triage-red-border text-triage-red hover:bg-triage-red-light text-xs font-semibold flex items-center gap-1.5 transition-colors shrink-0 self-start sm:self-auto"
-            >
-              {soundPlaying ? <Volume2 className="w-3.5 h-3.5" /> : <VolumeX className="w-3.5 h-3.5" />}
-              <span>{soundPlaying ? 'Chime Active...' : 'Replay Alert Chime'}</span>
-            </button>
-          </div>
-        )}
-
-        {/* Triage Protocol Header with Record ID and Time */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-5 rounded-2xl border border-charcoal-200 shadow-subtle">
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-[11px] font-bold tracking-wider text-charcoal-500 uppercase">
-                Clinical Triage Record
-              </span>
-              <span className="text-[10px] bg-forest-50 text-forest-800 border border-forest-100 px-2 py-0.5 rounded-full font-semibold">
-                Stratified
-              </span>
-            </div>
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-charcoal-600 font-mono mt-1">
-              <span>Encounter: <strong className="text-charcoal-900">{encounter.encounterNumber || 'ENC-140406'}</strong></span>
-              <span>•</span>
-              <span>UHID: <strong className="text-charcoal-900">{encounter.uhid || 'MID-2026-5899'}</strong></span>
-              {encounter.patientName && (
-                <>
-                  <span>•</span>
-                  <span>Patient: <strong className="text-charcoal-900">{encounter.patientName}</strong></span>
-                </>
-              )}
-            </div>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-2">
-            <div className="bg-ivory-50 border border-charcoal-200 px-3 py-1.5 rounded-xl text-xs flex items-center gap-2 text-charcoal-700">
-              <Calendar className="w-3.5 h-3.5 text-forest-700" />
-              <span>{formattedDate}</span>
-              <span className="text-charcoal-300">•</span>
-              <Clock className="w-3.5 h-3.5 text-forest-700" />
-              <span className="font-mono font-semibold">{formattedTime}</span>
-            </div>
-
+          <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={() => window.print()}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border border-charcoal-200 text-xs font-semibold text-charcoal-700 hover:bg-ivory-100 transition-colors"
+              className="px-3 py-1.5 rounded-full border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-white flex items-center gap-1.5 shadow-2xs transition-colors"
             >
-              <Printer className="w-3.5 h-3.5 text-charcoal-500" />
-              <span>Print Intake</span>
+              <Printer className="w-3 h-3 text-slate-400" />
+              <span>Print Results</span>
             </button>
           </div>
         </div>
 
-        {/* Clinical Assessment Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        {/* Heading matching Screen 3 */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+          <div>
+            <h1 className="font-sans text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+              Your Assessment Results
+            </h1>
+            <p className="text-xs sm:text-sm text-slate-500 mt-1">
+              Encounter {encounter.encounterNumber} • Evaluated according to clinical triage guidelines.
+            </p>
+          </div>
+          {soundPlaying && (
+            <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-rose-700 bg-rose-50 border border-rose-200 px-3 py-1 rounded-full animate-pulse self-start sm:self-auto">
+              <Volume2 className="w-3.5 h-3.5" /> Clinical Alert Sound Active
+            </span>
+          )}
+        </div>
+
+        {/* ========================================================= */}
+        {/* URGENCY ALERT CARD (Matching Exact Screen 3 Mockup)       */}
+        {/* ========================================================= */}
+        <div
+          className={`p-5 sm:p-6 rounded-2xl flex items-start gap-4 border shadow-xs ${
+            isRed
+              ? 'bg-[#FDF2F2] border-red-200 text-slate-900'
+              : isYellow
+              ? 'bg-[#FFFBEB] border-amber-200 text-slate-900'
+              : 'bg-[#ECFDF5] border-emerald-200 text-slate-900'
+          }`}
+        >
+          <div
+            className={`w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 ${
+              isRed
+                ? 'bg-red-100 text-[#D93829]'
+                : isYellow
+                ? 'bg-amber-100 text-amber-700'
+                : 'bg-emerald-100 text-emerald-700'
+            }`}
+          >
+            <AlertTriangle className="w-5 h-5" />
+          </div>
+
+          <div className="space-y-0.5">
+            <h2 className={`font-bold text-base sm:text-lg ${isRed ? 'text-[#D93829]' : isYellow ? 'text-amber-800' : 'text-emerald-800'}`}>
+              {isRed ? 'High Urgency' : isYellow ? 'Moderate Urgency' : 'Standard Routine Care'}
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-normal">
+              {isRed
+                ? 'Your symptoms may need prompt medical attention.'
+                : isYellow
+                ? 'Your reported complaints warrant clinical consultation within 30–60 minutes.'
+                : 'Your symptoms appear stable and suitable for routine outpatient consultation.'}
+            </p>
+          </div>
+        </div>
+
+        {/* ========================================================= */}
+        {/* TWO-COLUMN CONTENT GRID (Matching Exact Screen 3 Mockup)  */}
+        {/* ========================================================= */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           
-          {/* Left Column (7 cols): Stratification Card & Guidance */}
-          <div className="lg:col-span-7 space-y-6">
+          {/* Left Column (7 cols): Action, Explanations, Warning Signs */}
+          <div className="lg:col-span-7 space-y-5">
             
-            {/* Primary Acuity Card */}
-            <div className={`p-6 sm:p-7 rounded-3xl border shadow-apple ${warning.bgLightClass}`}>
-              <div className="flex items-center gap-3.5 mb-3">
-                <TriageIcon category={category} size="lg" />
-                <div>
-                  <h1 className={`font-serif text-3xl sm:text-4xl font-normal tracking-tight ${warning.colorClass}`}>
-                    {warning.code}
-                  </h1>
-                  <span className="text-xs font-semibold uppercase tracking-wider text-charcoal-600 block mt-0.5">
-                    Target Care Window: {warning.treatmentWindow}
-                  </span>
-                </div>
-              </div>
+            {/* 1. Recommended Action Card matching mockup */}
+            <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs space-y-2">
+              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
+                Recommended Action
+              </span>
 
-              <div className="mt-4 pt-4 border-t border-charcoal-200/50">
-                <div className="font-sans font-semibold text-base sm:text-lg text-charcoal-900 leading-snug">
-                  {warning.code} — {warning.title}
-                </div>
-                <p className="text-xs sm:text-sm text-charcoal-700 mt-2 leading-relaxed">
-                  {encounter.plainLanguageSummary || warning.description}
-                </p>
-              </div>
-            </div>
-
-            {/* Immediate Action Protocol Box */}
-            <div className="p-5 rounded-2xl bg-white border border-charcoal-200 shadow-subtle space-y-3">
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-charcoal-600">
-                <Stethoscope className="w-4 h-4 text-forest-800" />
-                <span>Recommended Clinical Action</span>
-              </div>
-              <p className="text-xs sm:text-sm text-charcoal-800 leading-relaxed font-normal">
-                {encounter.recommendedAction || 'Proceed to priority examination bay and alert assigned nursing team.'}
-              </p>
-
-              <div className="grid grid-cols-2 gap-3 pt-3 text-xs border-t border-charcoal-100">
-                <div>
-                  <span className="text-charcoal-500 block text-[10px] uppercase font-bold tracking-wider">
-                    Assigned Priority Window
-                  </span>
-                  <span className="font-semibold text-charcoal-900">
-                    {warning.treatmentWindow}
-                  </span>
+              <div className="flex items-start gap-3 pt-1">
+                <div className="w-9 h-9 rounded-xl bg-teal-50 border border-teal-100 flex items-center justify-center text-teal-800 shrink-0 mt-0.5">
+                  <Siren className="w-4 h-4 text-teal-700" />
                 </div>
                 <div>
-                  <span className="text-charcoal-500 block text-[10px] uppercase font-bold tracking-wider">
-                    Estimated Time to Physician Review
-                  </span>
-                  <span className="font-mono font-semibold text-charcoal-900">
-                    Within {encounter.waitTimeMinutes || (isRed ? 5 : 30)} Minutes
-                  </span>
+                  <h3 className="font-bold text-xs sm:text-sm text-slate-900">
+                    {encounter.recommendedAction || 'Seek medical help as soon as possible.'}
+                  </h3>
+                  <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                    Consider visiting the nearest hospital or calling for emergency assistance.
+                  </p>
                 </div>
               </div>
             </div>
 
-            {/* Directional Differential Diagnosis Card */}
-            <DirectionalDiagnosisCard
-              initialSymptoms={encounter.symptoms?.selectedSymptoms || []}
-              initialOtherText={encounter.symptoms?.otherSymptomsText || ''}
-              vitals={encounter.vitals}
-              category={category}
-            />
+            {/* 2. Possible Explanations Card matching mockup */}
+            <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs space-y-3">
+              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
+                Possible Explanations
+              </span>
 
-            {/* Critical Red Flag Warning Signs (Phase 6 Requirement) */}
-            <div className="bg-white border border-charcoal-200 rounded-2xl p-5 shadow-subtle space-y-3">
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-charcoal-700">
-                <AlertTriangle className="w-4 h-4 text-triage-red" />
-                <span>Critical Escalation Warning Signs (Red Flags)</span>
-              </div>
-              <p className="text-xs text-charcoal-600 leading-relaxed">
-                If the patient develops any of the following symptoms at any time, immediately call 108 or proceed to the nearest emergency hospital:
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-charcoal-800">
-                <div className="p-2.5 rounded-xl bg-ivory-50 border border-charcoal-100 flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-triage-red shrink-0 mt-1.5" />
-                  <span>Crushing chest pain or pressure radiating to left arm or jaw</span>
-                </div>
-                <div className="p-2.5 rounded-xl bg-ivory-50 border border-charcoal-100 flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-triage-red shrink-0 mt-1.5" />
-                  <span>Severe sudden shortness of breath or inability to speak full sentences</span>
-                </div>
-                <div className="p-2.5 rounded-xl bg-ivory-50 border border-charcoal-100 flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-triage-red shrink-0 mt-1.5" />
-                  <span>Sudden weakness, facial numbness, or slurred speech</span>
-                </div>
-                <div className="p-2.5 rounded-xl bg-ivory-50 border border-charcoal-100 flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-triage-red shrink-0 mt-1.5" />
-                  <span>Loss of consciousness, acute confusion, or persistent fainting</span>
-                </div>
-              </div>
+              <ul className="space-y-2 text-xs text-slate-700">
+                <li className="flex items-start gap-2.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-teal-600 mt-1.5 shrink-0" />
+                  <span>
+                    <strong>Acute Cardiovascular or Thoracic Presentation</strong> (ICD-10: I20 / R07.9)
+                  </span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-teal-600 mt-1.5 shrink-0" />
+                  <span>
+                    Severe respiratory or viral infection (e.g. influenza, acute bronchitis)
+                  </span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-teal-600 mt-1.5 shrink-0" />
+                  <span>
+                    Musculoskeletal chest wall strain or secondary autonomic discomfort
+                  </span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-teal-600 mt-1.5 shrink-0" />
+                  <span>
+                    Other underlying physiological conditions to review with a licensed clinician
+                  </span>
+                </li>
+              </ul>
             </div>
 
-            {/* Vitals Summary Card */}
-            {encounter.vitals && (
-              <div className="bg-white border border-charcoal-200 rounded-2xl p-5 shadow-apple space-y-3">
-                <div className="flex items-center justify-between text-xs border-b border-charcoal-100 pb-2">
-                  <span className="font-semibold text-charcoal-900 flex items-center gap-1.5">
-                    <Activity className="w-3.5 h-3.5 text-forest-700" />
-                    <span>Intake Health Measurements</span>
-                  </span>
-                  <span className="text-[10px] text-charcoal-500">Documented at intake</span>
-                </div>
+            {/* 3. Warning Signs Card matching mockup */}
+            <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs space-y-3">
+              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
+                Warning Signs
+              </span>
 
-                <div className="grid grid-cols-3 gap-3 text-xs">
-                  <div className="bg-ivory-50 p-3 rounded-xl border border-charcoal-100">
-                    <span className="text-[10px] text-charcoal-500 block uppercase font-medium">Blood Pressure</span>
-                    <span className="font-mono font-semibold text-charcoal-900 text-sm">
-                      {encounter.vitals.systolicBp || 120}/{encounter.vitals.diastolicBp || 80} <span className="text-[10px] text-charcoal-400 font-normal">mmHg</span>
-                    </span>
-                  </div>
-
-                  <div className="bg-ivory-50 p-3 rounded-xl border border-charcoal-100">
-                    <span className="text-[10px] text-charcoal-500 block uppercase font-medium">Heart Rate</span>
-                    <span className="font-mono font-semibold text-charcoal-900 text-sm">
-                      {encounter.vitals.heartRate || 72} <span className="text-[10px] text-charcoal-400 font-normal">bpm</span>
-                    </span>
-                  </div>
-
-                  <div className="bg-ivory-50 p-3 rounded-xl border border-charcoal-100">
-                    <span className="text-[10px] text-charcoal-500 block uppercase font-medium">Oxygen (SpO2)</span>
-                    <span className={`font-mono font-semibold text-sm ${(encounter.vitals.oxygenSaturation || 98) < 92 ? 'text-triage-red' : 'text-charcoal-900'}`}>
-                      {encounter.vitals.oxygenSaturation || 98}%
-                    </span>
-                  </div>
-                </div>
-              </div>
-            )}
+              <ul className="space-y-2 text-xs text-slate-700">
+                <li className="flex items-start gap-2.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#D93829] mt-1.5 shrink-0" />
+                  <span>Difficulty in breathing or gasping for air</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#D93829] mt-1.5 shrink-0" />
+                  <span>Persistent chest pain, pressure, or radiating tightness</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#D93829] mt-1.5 shrink-0" />
+                  <span>Confusion, sudden weakness, or unusual drowsiness</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#D93829] mt-1.5 shrink-0" />
+                  <span>Sudden loss of balance or persistent fainting episodes</span>
+                </li>
+              </ul>
+            </div>
 
           </div>
 
-          {/* Right Column (5 cols): Clinical Care Queue & Next Actions */}
-          <div className="lg:col-span-5 space-y-6">
+          {/* Right Column (5 cols): Next Steps & Action Buttons */}
+          <div className="lg:col-span-5 space-y-5">
             
-            <div className="bg-white border border-charcoal-200 rounded-2xl p-6 shadow-apple space-y-5">
-              <h3 className="font-serif text-xl font-normal text-charcoal-950">
-                Care Coordination Actions
+            {/* Next Steps Card with Green Checks matching mockup */}
+            <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs space-y-3.5">
+              <h3 className="font-bold text-xs uppercase tracking-wider text-slate-500">
+                Next Steps
               </h3>
 
-              <div className="space-y-3.5 text-xs">
-                <div className="flex items-start gap-3">
-                  <span className="w-5 h-5 rounded-full bg-forest-50 border border-forest-100 text-forest-800 font-semibold flex items-center justify-center shrink-0 text-xs mt-0.5">
-                    1
-                  </span>
-                  <div>
-                    <span className="font-semibold text-charcoal-900 block">
-                      {isRed ? 'Route to Resuscitation Bay' : 'Queue for Clinical Evaluation'}
-                    </span>
-                    <span className="text-charcoal-600 text-[11px]">
-                      Patient prioritized in hospital clinical tracking console.
-                    </span>
+              <div className="space-y-2.5 text-xs text-slate-800">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-700 shrink-0">
+                    <CheckCircle2 className="w-3.5 h-3.5 fill-emerald-600 text-white" />
                   </div>
+                  <span className="font-medium">Visit a nearby hospital</span>
                 </div>
 
-                <div className="flex items-start gap-3">
-                  <span className="w-5 h-5 rounded-full bg-forest-50 border border-forest-100 text-forest-800 font-semibold flex items-center justify-center shrink-0 text-xs mt-0.5">
-                    2
-                  </span>
-                  <div>
-                    <span className="font-semibold text-charcoal-900 block">
-                      Attending Clinician Review
-                    </span>
-                    <span className="text-charcoal-600 text-[11px]">
-                      Nurse or physician verifies vital signs and initiates diagnostic workup.
-                    </span>
+                <div className="flex items-center gap-2.5">
+                  <div className="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-700 shrink-0">
+                    <CheckCircle2 className="w-3.5 h-3.5 fill-emerald-600 text-white" />
                   </div>
+                  <span className="font-medium">Call for emergency assistance if needed</span>
                 </div>
 
-                <div className="flex items-start gap-3">
-                  <span className="w-5 h-5 rounded-full bg-forest-50 border border-forest-100 text-forest-800 font-semibold flex items-center justify-center shrink-0 text-xs mt-0.5">
-                    3
-                  </span>
-                  <div>
-                    <span className="font-semibold text-charcoal-900 block">
-                      Continuous Observation
-                    </span>
-                    <span className="text-charcoal-600 text-[11px]">
-                      Periodic vitals assessment according to ESI/MTS standards.
-                    </span>
+                <div className="flex items-center gap-2.5">
+                  <div className="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-700 shrink-0">
+                    <CheckCircle2 className="w-3.5 h-3.5 fill-emerald-600 text-white" />
                   </div>
+                  <span className="font-medium">Monitor your symptoms closely</span>
                 </div>
               </div>
 
-              {/* Action CTAs */}
-              <div className="pt-2 flex flex-col gap-2.5">
-                <Link
-                  to={`/staff/encounter/${encounter.id}`}
-                  className="w-full py-2.5 px-4 rounded-xl bg-forest-800 text-ivory-50 text-xs font-semibold hover:bg-forest-900 shadow-xs flex items-center justify-center gap-2 transition-colors"
+              {/* Action Buttons */}
+              <div className="pt-4 space-y-2.5">
+                <a
+                  href="/#hospitals"
+                  className="w-full py-3 px-4 rounded-full bg-[#0D382F] hover:bg-[#092822] text-white text-xs font-semibold flex items-center justify-center gap-2 transition-all shadow-xs"
                 >
-                  <Building2 className="w-3.5 h-3.5" />
-                  <span>Open in Hospital Queue</span>
-                </Link>
-
-                <Link
-                  to="/assess"
-                  className="w-full py-2.5 px-4 rounded-xl border border-charcoal-200 text-xs font-semibold text-charcoal-700 hover:bg-ivory-100 flex items-center justify-center gap-2 transition-colors"
-                >
-                  <RotateCcw className="w-3.5 h-3.5" />
-                  <span>Perform Next Intake</span>
-                </Link>
+                  <Building2 className="w-4 h-4 text-emerald-300" />
+                  <span>Find Nearby Hospitals</span>
+                </a>
 
                 {isRed && (
                   <Link
                     to="/jeevan"
-                    className="w-full py-2.5 px-4 rounded-xl bg-triage-red text-white text-xs font-semibold hover:bg-red-700 flex items-center justify-center gap-2 transition-colors"
+                    className="w-full py-3 px-4 rounded-full bg-[#D93829] hover:bg-[#C02F21] text-white text-xs font-semibold flex items-center justify-center gap-2 transition-all shadow-xs"
                   >
-                    <span>Request 108 Emergency Ambulance</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    <Phone className="w-4 h-4 fill-white" />
+                    <span>Call 108 Emergency Ambulance</span>
                   </Link>
                 )}
+
+                <Link
+                  to="/assess"
+                  className="w-full py-2.5 px-4 rounded-full border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold flex items-center justify-center gap-2 transition-colors"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" />
+                  <span>Start New Assessment</span>
+                </Link>
               </div>
             </div>
 
-            {/* Clinical Governance Note */}
-            <div className="p-4 rounded-2xl bg-ivory-100 border border-charcoal-200 text-xs text-charcoal-600 space-y-1">
-              <div className="flex items-center gap-1.5 font-semibold text-charcoal-800">
-                <ShieldCheck className="w-4 h-4 text-forest-700" />
-                <span>Clinical Governance & Audit Trail</span>
-              </div>
-              <p className="leading-relaxed text-[11px]">
-                This triage assessment is recorded with timestamp and immutable encounter hash for clinical safety and quality improvement.
-              </p>
+            {/* Disclaimer Box matching exact mockup */}
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/70 text-xs text-slate-500 leading-relaxed flex items-start gap-2.5">
+              <Info className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
+              <span>
+                This assessment is for guidance only and not a substitute for professional medical advice. Always consult a qualified physician for evaluation and treatment.
+              </span>
             </div>
 
           </div>
+
         </div>
+
       </main>
 
-      <footer className="w-full py-6 text-center text-xs text-charcoal-400 border-t border-charcoal-200 bg-white">
-        MediTriage AI • Clinical Decision Support & Triage Management
+      {/* Clean Footer */}
+      <footer className="w-full border-t border-slate-100 bg-white py-6 text-center text-xs text-slate-400">
+        MediTriage AI • Clinical Triage Platform
       </footer>
     </div>
   );

@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { getHospitalSession, logoutHospital } from '../lib/hospitalAuth';
-import type { HospitalAccount } from '../types';
 import {
-  ArrowRight,
-  LogOut,
+  Phone,
   Menu,
   X,
-  ShieldCheck,
   Stethoscope,
-  Siren,
-  LayoutDashboard,
-  Building2
+  Building2,
+  Info,
+  Home
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -22,168 +18,93 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ isAssessmentFlow, onExit }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [session, setSession] = useState<HospitalAccount | null>(getHospitalSession());
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  useEffect(() => {
-    const handleAuthChange = () => setSession(getHospitalSession());
-    window.addEventListener('hospital_auth_changed', handleAuthChange);
-    return () => window.removeEventListener('hospital_auth_changed', handleAuthChange);
-  }, []);
-
-  // Close mobile menu on route change
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [location.pathname]);
 
-  const handleLogout = () => {
-    logoutHospital();
-    navigate('/login');
-  };
-
   return (
-    <header className="w-full bg-white/95 backdrop-blur-sm border-b border-charcoal-200 sticky top-0 z-40 transition-all">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 sm:h-20 flex items-center justify-between">
+    <header className="w-full bg-white border-b border-slate-100 sticky top-0 z-50 transition-all">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         
-        {/* Brand Logo - Preserved exactly as required */}
-        <div className="flex items-center gap-8">
-          <Link to="/" className="flex items-center group focus:outline-none focus-visible:ring-2 focus-visible:ring-forest-800 rounded-lg">
-            <img
-              src="/logo_horizontal.png"
-              alt="MediTriage AI Logo"
-              className="h-8 sm:h-9 w-auto object-contain transition-transform group-hover:opacity-95"
-              style={{ imageRendering: '-webkit-optimize-contrast', transform: 'translateZ(0)' }}
-            />
-          </Link>
+        {/* Brand Logo - Preserved exactly as in mockup */}
+        <Link to="/" className="flex items-center gap-2 group focus:outline-none">
+          <img
+            src="/logo_horizontal.png"
+            alt="MEDITRIAGE AI"
+            className="h-7 sm:h-8 w-auto object-contain transition-transform group-hover:opacity-95"
+            style={{ imageRendering: '-webkit-optimize-contrast', transform: 'translateZ(0)' }}
+          />
+        </Link>
 
-          {/* Desktop Navigation Links */}
-          {!isAssessmentFlow && (
-            <nav className="hidden md:flex items-center gap-6 text-xs font-medium text-charcoal-700">
-              <Link
-                to="/assess"
-                className={`flex items-center gap-1.5 py-1 transition-colors hover:text-forest-800 ${
-                  location.pathname === '/assess' ? 'text-forest-800 font-semibold' : ''
-                }`}
-              >
-                <Stethoscope className="w-3.5 h-3.5 text-forest-700" />
-                <span>Symptom Triage</span>
-              </Link>
+        {/* Center Navigation Links - Matching exact mockup (Home, Assess Symptoms, Find Hospitals, About) */}
+        {!isAssessmentFlow ? (
+          <nav className="hidden md:flex items-center gap-8 text-xs font-medium text-slate-700">
+            <Link
+              to="/"
+              className={`transition-colors hover:text-slate-900 ${
+                location.pathname === '/' ? 'text-slate-950 font-semibold' : ''
+              }`}
+            >
+              Home
+            </Link>
 
-              <a
-                href="/#hospitals"
-                className="py-1 transition-colors hover:text-forest-800"
-              >
-                Find Hospitals
-              </a>
+            <Link
+              to="/assess"
+              className={`transition-colors hover:text-slate-900 ${
+                location.pathname === '/assess' ? 'text-slate-950 font-semibold' : ''
+              }`}
+            >
+              Assess Symptoms
+            </Link>
 
-              <Link
-                to="/jeevan"
-                className={`flex items-center gap-1.5 py-1 transition-colors hover:text-triage-red ${
-                  location.pathname === '/jeevan' ? 'text-triage-red font-semibold' : ''
-                }`}
-              >
-                <span className="w-2 h-2 rounded-full bg-triage-red" />
-                <span>Emergency 108 SOS</span>
-              </Link>
+            <a
+              href="/#hospitals"
+              className="transition-colors hover:text-slate-900"
+            >
+              Find Hospitals
+            </a>
 
-              <Link
-                to="/dispatcher"
-                className={`py-1 transition-colors hover:text-forest-800 ${
-                  location.pathname === '/dispatcher' ? 'text-forest-800 font-semibold' : ''
-                }`}
-              >
-                Dispatch Grid
-              </Link>
-
-              <Link
-                to="/staff/dashboard"
-                className={`py-1 transition-colors hover:text-forest-800 ${
-                  location.pathname.startsWith('/staff') ? 'text-forest-800 font-semibold' : ''
-                }`}
-              >
-                Clinical Queue
-              </Link>
-            </nav>
-          )}
-        </div>
-
-        {/* Assessment Flow State Header */}
-        {isAssessmentFlow && (
-          <div className="hidden sm:flex items-center gap-4 text-xs text-charcoal-600 font-medium">
-            <span className="flex items-center gap-2 text-forest-800 bg-forest-50 px-3 py-1 rounded-full border border-forest-100">
-              <span className="w-2 h-2 rounded-full bg-forest-700" />
-              <span>Clinical Intake Desk</span>
-            </span>
-            {session && (
-              <span className="font-mono text-charcoal-500 text-[11px]">
-                {session.hospitalId} • {session.staffName}
-              </span>
-            )}
+            <a
+              href="/#about"
+              className="transition-colors hover:text-slate-900"
+            >
+              About
+            </a>
+          </nav>
+        ) : (
+          <div className="hidden sm:flex items-center gap-2 text-xs text-slate-500 font-medium">
+            <span className="w-2 h-2 rounded-full bg-emerald-500" />
+            <span>Symptom Assessment in Progress</span>
           </div>
         )}
 
-        {/* Right CTA / Session Actions */}
+        {/* Right CTA - Exact Red Pill Button from Mockup: 📞 Emergency */}
         <div className="flex items-center gap-3">
           {isAssessmentFlow ? (
             <button
-              onClick={onExit}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold text-charcoal-700 hover:text-charcoal-900 hover:bg-charcoal-100 transition-all border border-charcoal-300"
+              onClick={onExit || (() => navigate('/'))}
+              className="px-4 py-2 rounded-full border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
             >
-              <LogOut className="w-3.5 h-3.5" />
-              <span>Exit Desk</span>
+              Exit
             </button>
-          ) : session ? (
-            <div className="flex items-center gap-3">
-              <div className="hidden lg:flex flex-col text-right">
-                <span className="text-xs font-semibold text-charcoal-900 leading-tight">
-                  {session.hospitalName.split(' ')[0]} {session.hospitalName.split(' ')[1] || 'Hospital'}
-                </span>
-                <span className="text-[11px] text-forest-700 font-mono">
-                  {session.staffRole || 'Staff on Duty'}
-                </span>
-              </div>
-
-              <Link
-                to="/assess"
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-medium bg-forest-800 text-ivory-50 hover:bg-forest-900 shadow-xs transition-all"
-              >
-                <span>New Intake</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-
-              <button
-                onClick={handleLogout}
-                className="p-2 rounded-full text-charcoal-500 hover:text-charcoal-900 hover:bg-charcoal-100 transition-colors"
-                title="Sign out"
-              >
-                <LogOut className="w-4 h-4" />
-              </button>
-            </div>
           ) : (
-            <div className="flex items-center gap-2.5">
-              <Link
-                to="/jeevan"
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-triage-red text-white text-xs font-semibold hover:bg-red-700 shadow-xs transition-colors"
-              >
-                <Siren className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">108 Emergency</span>
-                <span className="sm:hidden">108</span>
-              </Link>
-              <Link
-                to="/login"
-                className="px-4 py-2 rounded-full bg-ivory-100 text-charcoal-800 text-xs font-medium hover:bg-ivory-200 transition-colors border border-charcoal-200"
-              >
-                Hospital Staff Login
-              </Link>
-            </div>
+            <Link
+              to="/jeevan"
+              className="inline-flex items-center gap-1.5 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-[#D93829] hover:bg-[#C02F21] text-white text-xs font-semibold shadow-xs transition-transform hover:scale-[1.02]"
+            >
+              <Phone className="w-3.5 h-3.5 fill-white text-white" />
+              <span>Emergency</span>
+            </Link>
           )}
 
           {/* Mobile Menu Hamburger */}
           {!isAssessmentFlow && (
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg text-charcoal-600 hover:text-charcoal-900 hover:bg-charcoal-100 md:hidden transition-colors"
-              aria-label="Toggle Navigation Menu"
+              className="p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 md:hidden transition-colors"
+              aria-label="Toggle navigation"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -194,49 +115,48 @@ export const Navbar: React.FC<NavbarProps> = ({ isAssessmentFlow, onExit }) => {
 
       {/* Mobile Navigation Drawer */}
       {!isAssessmentFlow && mobileMenuOpen && (
-        <div className="md:hidden border-t border-charcoal-200 bg-white px-4 py-4 space-y-3 animate-fade-in shadow-lg">
+        <div className="md:hidden border-t border-slate-100 bg-white px-4 py-4 space-y-2.5 shadow-lg animate-fade-in">
+          <Link
+            to="/"
+            className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-slate-800 hover:bg-slate-50"
+          >
+            <Home className="w-4 h-4 text-slate-500" />
+            <span>Home</span>
+          </Link>
+
           <Link
             to="/assess"
-            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium text-charcoal-800 hover:bg-ivory-100 transition-colors"
+            className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-slate-800 hover:bg-slate-50"
           >
-            <Stethoscope className="w-4 h-4 text-forest-700" />
-            <span>Symptom Triage Assessment</span>
+            <Stethoscope className="w-4 h-4 text-slate-500" />
+            <span>Assess Symptoms</span>
           </Link>
+
           <a
             href="/#hospitals"
             onClick={() => setMobileMenuOpen(false)}
-            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium text-charcoal-800 hover:bg-ivory-100 transition-colors"
+            className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-slate-800 hover:bg-slate-50"
           >
-            <Building2 className="w-4 h-4 text-forest-700" />
-            <span>Find Nearby Hospitals</span>
+            <Building2 className="w-4 h-4 text-slate-500" />
+            <span>Find Hospitals</span>
           </a>
-          <Link
-            to="/jeevan"
-            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-triage-red hover:bg-triage-red-light transition-colors"
+
+          <a
+            href="/#about"
+            onClick={() => setMobileMenuOpen(false)}
+            className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-slate-800 hover:bg-slate-50"
           >
-            <Siren className="w-4 h-4 text-triage-red" />
-            <span>Emergency 108 SOS Dispatch</span>
-          </Link>
-          <Link
-            to="/dispatcher"
-            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium text-charcoal-800 hover:bg-ivory-100 transition-colors"
-          >
-            <LayoutDashboard className="w-4 h-4 text-forest-700" />
-            <span>Fleet & Emergency Dispatch Grid</span>
-          </Link>
-          <Link
-            to="/staff/dashboard"
-            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium text-charcoal-800 hover:bg-ivory-100 transition-colors"
-          >
-            <ShieldCheck className="w-4 h-4 text-forest-700" />
-            <span>Hospital Triage Queue</span>
-          </Link>
-          <div className="pt-2 border-t border-charcoal-200">
+            <Info className="w-4 h-4 text-slate-500" />
+            <span>About MediTriage AI</span>
+          </a>
+
+          <div className="pt-2 border-t border-slate-100">
             <Link
-              to="/login"
-              className="w-full text-center block py-2.5 rounded-xl bg-forest-800 text-ivory-50 text-xs font-semibold hover:bg-forest-900"
+              to="/jeevan"
+              className="w-full py-2.5 rounded-full bg-[#D93829] text-white text-xs font-semibold flex items-center justify-center gap-2 shadow-xs"
             >
-              Hospital Staff Portal
+              <Phone className="w-3.5 h-3.5 fill-white" />
+              <span>108 Emergency Assistance</span>
             </Link>
           </div>
         </div>
