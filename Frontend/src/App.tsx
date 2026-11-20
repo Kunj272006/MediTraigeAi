@@ -13,6 +13,9 @@ import { AdminPortalPage } from './pages/AdminPortalPage';
 import { LandingPage } from './pages/LandingPage';
 import { AssessmentPage } from './pages/AssessmentPage';
 import { ResultPage } from './pages/ResultPage';
+import { FindHospitalsPage } from './pages/FindHospitalsPage';
+import { EmergencyAssistancePage } from './pages/EmergencyAssistancePage';
+import { AboutPage } from './pages/AboutPage';
 import { HospitalDashboardPage } from './pages/HospitalDashboardPage';
 import { PatientDetailPage } from './pages/PatientDetailPage';
 import { HospitalLoginPage } from './pages/HospitalLoginPage';
@@ -131,7 +134,7 @@ export const App: React.FC = () => {
 
         {/* Core Jeevan AI Emergency Response Routes */}
         <Route path="/jeevan" element={<JeevanMainContainer initialRole="citizen" />} />
-        <Route path="/emergency" element={<Navigate to="/jeevan" replace />} />
+        <Route path="/emergency" element={<EmergencyAssistancePage />} />
         <Route path="/dispatcher" element={<JeevanMainContainer initialRole="dispatcher" />} />
         <Route path="/operator" element={<JeevanMainContainer initialRole="operator" />} />
         <Route path="/ambulance" element={<Navigate to="/operator" replace />} />
@@ -139,10 +142,10 @@ export const App: React.FC = () => {
         <Route path="/admin" element={<JeevanMainContainer initialRole="admin" />} />
         <Route path="/track/:id" element={<TrackingPageWrapper />} />
 
-        {/* Preserved Hospital Clinical Triage & Encounters Routes */}
+        {/* Dedicated 6-Screen Editorial Experience Routes */}
         <Route path="/landing" element={<LandingPage />} />
-        <Route path="/hospitals" element={<LandingPage />} />
-        <Route path="/about" element={<LandingPage />} />
+        <Route path="/hospitals" element={<FindHospitalsPage />} />
+        <Route path="/about" element={<AboutPage />} />
         <Route path="/login" element={<HospitalLoginPage />} />
         <Route path="/staff/login" element={<HospitalLoginPage />} />
         <Route path="/staff/subscription" element={<SubscriptionPage />} />

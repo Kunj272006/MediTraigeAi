@@ -24,11 +24,13 @@ export const Navbar: React.FC<NavbarProps> = ({ isAssessmentFlow, onExit }) => {
     setMobileMenuOpen(false);
   }, [location.pathname]);
 
+  const isActive = (path: string) => location.pathname === path;
+
   return (
-    <header className="w-full bg-white border-b border-slate-100 sticky top-0 z-50 transition-all">
+    <header className="w-full bg-white border-b border-slate-100 sticky top-0 z-50 transition-all select-none">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         
-        {/* Brand Logo - Preserved exactly as in mockup */}
+        {/* Brand Logo - Preserved exactly */}
         <Link to="/" className="flex items-center gap-2 group focus:outline-none">
           <img
             src="/logo_horizontal.png"
@@ -38,13 +40,13 @@ export const Navbar: React.FC<NavbarProps> = ({ isAssessmentFlow, onExit }) => {
           />
         </Link>
 
-        {/* Center Navigation Links - Matching exact mockup (Home, Assess Symptoms, Find Hospitals, About) */}
+        {/* Center Navigation Links - Matching exact mockup */}
         {!isAssessmentFlow ? (
-          <nav className="hidden md:flex items-center gap-8 text-xs font-medium text-slate-700">
+          <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
             <Link
               to="/"
               className={`transition-colors hover:text-slate-900 ${
-                location.pathname === '/' ? 'text-slate-950 font-semibold' : ''
+                isActive('/') ? 'text-slate-950 font-semibold' : ''
               }`}
             >
               Home
@@ -53,29 +55,33 @@ export const Navbar: React.FC<NavbarProps> = ({ isAssessmentFlow, onExit }) => {
             <Link
               to="/assess"
               className={`transition-colors hover:text-slate-900 ${
-                location.pathname === '/assess' ? 'text-slate-950 font-semibold' : ''
+                isActive('/assess') ? 'text-slate-950 font-semibold' : ''
               }`}
             >
               Assess Symptoms
             </Link>
 
-            <a
-              href="/#hospitals"
-              className="transition-colors hover:text-slate-900"
+            <Link
+              to="/hospitals"
+              className={`transition-colors hover:text-slate-900 ${
+                isActive('/hospitals') ? 'text-slate-950 font-semibold' : ''
+              }`}
             >
               Find Hospitals
-            </a>
+            </Link>
 
-            <a
-              href="/#about"
-              className="transition-colors hover:text-slate-900"
+            <Link
+              to="/about"
+              className={`transition-colors hover:text-slate-900 ${
+                isActive('/about') ? 'text-slate-950 font-semibold' : ''
+              }`}
             >
               About
-            </a>
+            </Link>
           </nav>
         ) : (
           <div className="hidden sm:flex items-center gap-2 text-xs text-slate-500 font-medium">
-            <span className="w-2 h-2 rounded-full bg-emerald-500" />
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             <span>Symptom Assessment in Progress</span>
           </div>
         )}
@@ -91,8 +97,8 @@ export const Navbar: React.FC<NavbarProps> = ({ isAssessmentFlow, onExit }) => {
             </button>
           ) : (
             <Link
-              to="/jeevan"
-              className="inline-flex items-center gap-1.5 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-[#D93829] hover:bg-[#C02F21] text-white text-xs font-semibold shadow-xs transition-transform hover:scale-[1.02]"
+              to="/emergency"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#D93829] hover:bg-[#C02F21] text-white text-xs font-bold shadow-xs transition-transform hover:scale-[1.02]"
             >
               <Phone className="w-3.5 h-3.5 fill-white text-white" />
               <span>Emergency</span>
@@ -113,12 +119,14 @@ export const Navbar: React.FC<NavbarProps> = ({ isAssessmentFlow, onExit }) => {
 
       </div>
 
-      {/* Mobile Navigation Drawer */}
-      {!isAssessmentFlow && mobileMenuOpen && (
-        <div className="md:hidden border-t border-slate-100 bg-white px-4 py-4 space-y-2.5 shadow-lg animate-fade-in">
+      {/* Mobile Menu Dropdown */}
+      {mobileMenuOpen && !isAssessmentFlow && (
+        <div className="md:hidden border-t border-slate-100 bg-white px-4 pt-3 pb-5 space-y-1 animate-fade-in shadow-lg">
           <Link
             to="/"
-            className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-slate-800 hover:bg-slate-50"
+            className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium ${
+              isActive('/') ? 'bg-slate-50 text-slate-950 font-semibold' : 'text-slate-600'
+            }`}
           >
             <Home className="w-4 h-4 text-slate-500" />
             <span>Home</span>
@@ -126,37 +134,41 @@ export const Navbar: React.FC<NavbarProps> = ({ isAssessmentFlow, onExit }) => {
 
           <Link
             to="/assess"
-            className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-slate-800 hover:bg-slate-50"
+            className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium ${
+              isActive('/assess') ? 'bg-slate-50 text-slate-950 font-semibold' : 'text-slate-600'
+            }`}
           >
             <Stethoscope className="w-4 h-4 text-slate-500" />
             <span>Assess Symptoms</span>
           </Link>
 
-          <a
-            href="/#hospitals"
-            onClick={() => setMobileMenuOpen(false)}
-            className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-slate-800 hover:bg-slate-50"
+          <Link
+            to="/hospitals"
+            className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium ${
+              isActive('/hospitals') ? 'bg-slate-50 text-slate-950 font-semibold' : 'text-slate-600'
+            }`}
           >
             <Building2 className="w-4 h-4 text-slate-500" />
             <span>Find Hospitals</span>
-          </a>
+          </Link>
 
-          <a
-            href="/#about"
-            onClick={() => setMobileMenuOpen(false)}
-            className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-slate-800 hover:bg-slate-50"
+          <Link
+            to="/about"
+            className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium ${
+              isActive('/about') ? 'bg-slate-50 text-slate-950 font-semibold' : 'text-slate-600'
+            }`}
           >
             <Info className="w-4 h-4 text-slate-500" />
-            <span>About MediTriage AI</span>
-          </a>
+            <span>About</span>
+          </Link>
 
-          <div className="pt-2 border-t border-slate-100">
+          <div className="pt-2">
             <Link
-              to="/jeevan"
-              className="w-full py-2.5 rounded-full bg-[#D93829] text-white text-xs font-semibold flex items-center justify-center gap-2 shadow-xs"
+              to="/emergency"
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#D93829] text-white text-xs font-bold"
             >
-              <Phone className="w-3.5 h-3.5 fill-white" />
-              <span>108 Emergency Assistance</span>
+              <Phone className="w-4 h-4 fill-white text-white" />
+              <span>Emergency 108</span>
             </Link>
           </div>
         </div>
