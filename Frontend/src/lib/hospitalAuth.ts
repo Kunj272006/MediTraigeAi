@@ -97,6 +97,66 @@ export const DEMO_HOSPITALS: Record<string, { hospital: HospitalAccount; passwor
 };
 
 const AUTH_STORAGE_KEY = 'meditriage_hospital_session_v1';
+const REGISTERED_HOSPITALS_KEY = 'meditriage_registered_hospitals_v1';
+
+export interface HospitalRegistrationData {
+  hospitalName: string;
+  hospitalType: string;
+  hospitalId: string;
+  city: string;
+  state: string;
+  country: string;
+  address: string;
+  fullName: string;
+  workEmail: string;
+  password: string;
+  adminRole: string;
+  contactNumber: string;
+  teamMembers?: string[];
+  trialStartDate?: string;
+  trialEndDate?: string;
+}
+
+export function getRegisteredHospitals(): Record<string, { hospital: HospitalAccount; passwordHash: string }> {
+  try {
+    const raw = localStorage.getItem(REGISTERED_HOSPITALS_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch {
+    return {};
+  }
+}
+
+export function registerHospitalTrial(data: HospitalRegistrationData): HospitalAccount {
+  const normalizedId = data.hospitalId.trim().toUpperCase();
+  
+  const end = new Date();
+  end.setDate(end.getDate() + 7);
+  const trialEndDate = data.trialEndDate || end.toISOString().slice(0, 10);
+
+  const account: HospitalAccount = {
+    hospitalId: normalizedId,
+    hospitalName: data.hospitalName.trim() || 'City General Hospital',
+    city: data.city.trim() || 'Dehradun',
+    department: 'Emergency & Triage Wing',
+    staffId: data.workEmail.trim() || 'dr.sharma@cityhospital.org',
+    staffName: data.fullName.trim() || 'Dr. Sharma',
+    staffRole: data.adminRole || 'Administrator',
+    activePlan: 'MONTHLY',
+    planValidUntil: trialEndDate,
+    isAuthenticated: true
+  };
+
+  const registered = getRegisteredHospitals();
+  registered[normalizedId] = {
+    hospital: account,
+    passwordHash: data.password.trim() || 'hospital123'
+  };
+  localStorage.setItem(REGISTERED_HOSPITALS_KEY, JSON.stringify(registered));
+
+  localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(account));
+  window.dispatchEvent(new Event('hospital_auth_changed'));
+  return account;
+}
 
 export function getHospitalSession(): HospitalAccount | null {
   try {
@@ -112,19 +172,38 @@ export function getHospitalSession(): HospitalAccount | null {
 
 export function loginHospital(hospitalId: string, staffId: string, password: string): { success: boolean; error?: string; session?: HospitalAccount } {
   const normalizedId = hospitalId.trim().toUpperCase();
-  const demoEntry = DEMO_HOSPITALS[normalizedId];
+  
+  // 1. Check in custom registered hospitals
+  const registered = getRegisteredHospitals();
+  if (registered[normalizedId]) {
+    const entry = registered[normalizedId];
+    if (entry.passwordHash === password.trim()) {
+      const session: HospitalAccount = {
+        ...entry.hospital,
+        staffId: staffId.trim() || entry.hospital.staffId,
+        staffName: entry.hospital.staffName,
+        isAuthenticated: true
+      };
+      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(session));
+      window.dispatchEvent(new Event('hospital_auth_changed'));
+      return { success: true, session };
+    }
+    return { success: false, error: 'Incorrect password for this registered hospital.' };
+  }
 
+  // 2. Check in DEMO_HOSPITALS
+  const demoEntry = DEMO_HOSPITALS[normalizedId];
   if (!demoEntry) {
     // Also allow generic valid hospital ID if formatted like HOSP-XXXX
-    if (normalizedId.startsWith('HOSP-') && password === 'hospital123') {
+    if (normalizedId.startsWith('HOSP-') && (password === 'hospital123' || password.length >= 6)) {
       const genericSession: HospitalAccount = {
         hospitalId: normalizedId,
-        hospitalName: `${normalizedId.replace('HOSP-', '')} Hospital Network`,
+        hospitalName: `${normalizedId.replace('HOSP-', '')} General Hospital`,
         city: 'Authorized Facility',
         department: 'Emergency & Triage Wing',
-        staffId: staffId.trim() || 'STAFF-AUTH-01',
-        staffName: staffId.includes('@') ? staffId.split('@')[0] : staffId || 'Staff Officer',
-        staffRole: 'Clinical Triage Specialist',
+        staffId: staffId.trim() || 'dr.sharma@cityhospital.org',
+        staffName: staffId.includes('@') ? staffId.split('@')[0] : staffId || 'Dr. Sharma',
+        staffRole: 'Administrator',
         activePlan: 'MONTHLY',
         planValidUntil: '2026-11-30',
         isAuthenticated: true
@@ -133,11 +212,11 @@ export function loginHospital(hospitalId: string, staffId: string, password: str
       window.dispatchEvent(new Event('hospital_auth_changed'));
       return { success: true, session: genericSession };
     }
-    return { success: false, error: 'Invalid Hospital ID. Please use one of the assigned hospital codes.' };
+    return { success: false, error: 'Invalid Hospital ID. Please check the code or start a 7-day free trial.' };
   }
 
   if (demoEntry.passwordHash !== password.trim()) {
-    return { success: false, error: 'Incorrect hospital credentials or security token.' };
+    return { success: false, error: 'Incorrect password. Check your credentials.' };
   }
 
   const session: HospitalAccount = {
