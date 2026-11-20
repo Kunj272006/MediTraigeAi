@@ -10,7 +10,8 @@ import {
   ShieldCheck,
   Stethoscope,
   Siren,
-  LayoutDashboard
+  LayoutDashboard,
+  Building2
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -67,6 +68,13 @@ export const Navbar: React.FC<NavbarProps> = ({ isAssessmentFlow, onExit }) => {
                 <Stethoscope className="w-3.5 h-3.5 text-forest-700" />
                 <span>Symptom Triage</span>
               </Link>
+
+              <a
+                href="/#hospitals"
+                className="py-1 transition-colors hover:text-forest-800"
+              >
+                Find Hospitals
+              </a>
 
               <Link
                 to="/jeevan"
@@ -194,6 +202,14 @@ export const Navbar: React.FC<NavbarProps> = ({ isAssessmentFlow, onExit }) => {
             <Stethoscope className="w-4 h-4 text-forest-700" />
             <span>Symptom Triage Assessment</span>
           </Link>
+          <a
+            href="/#hospitals"
+            onClick={() => setMobileMenuOpen(false)}
+            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium text-charcoal-800 hover:bg-ivory-100 transition-colors"
+          >
+            <Building2 className="w-4 h-4 text-forest-700" />
+            <span>Find Nearby Hospitals</span>
+          </a>
           <Link
             to="/jeevan"
             className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-triage-red hover:bg-triage-red-light transition-colors"

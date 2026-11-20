@@ -259,6 +259,35 @@ export const ResultPage: React.FC = () => {
               category={category}
             />
 
+            {/* Critical Red Flag Warning Signs (Phase 6 Requirement) */}
+            <div className="bg-white border border-charcoal-200 rounded-2xl p-5 shadow-subtle space-y-3">
+              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-charcoal-700">
+                <AlertTriangle className="w-4 h-4 text-triage-red" />
+                <span>Critical Escalation Warning Signs (Red Flags)</span>
+              </div>
+              <p className="text-xs text-charcoal-600 leading-relaxed">
+                If the patient develops any of the following symptoms at any time, immediately call 108 or proceed to the nearest emergency hospital:
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-charcoal-800">
+                <div className="p-2.5 rounded-xl bg-ivory-50 border border-charcoal-100 flex items-start gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-triage-red shrink-0 mt-1.5" />
+                  <span>Crushing chest pain or pressure radiating to left arm or jaw</span>
+                </div>
+                <div className="p-2.5 rounded-xl bg-ivory-50 border border-charcoal-100 flex items-start gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-triage-red shrink-0 mt-1.5" />
+                  <span>Severe sudden shortness of breath or inability to speak full sentences</span>
+                </div>
+                <div className="p-2.5 rounded-xl bg-ivory-50 border border-charcoal-100 flex items-start gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-triage-red shrink-0 mt-1.5" />
+                  <span>Sudden weakness, facial numbness, or slurred speech</span>
+                </div>
+                <div className="p-2.5 rounded-xl bg-ivory-50 border border-charcoal-100 flex items-start gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-triage-red shrink-0 mt-1.5" />
+                  <span>Loss of consciousness, acute confusion, or persistent fainting</span>
+                </div>
+              </div>
+            </div>
+
             {/* Vitals Summary Card */}
             {encounter.vitals && (
               <div className="bg-white border border-charcoal-200 rounded-2xl p-5 shadow-apple space-y-3">

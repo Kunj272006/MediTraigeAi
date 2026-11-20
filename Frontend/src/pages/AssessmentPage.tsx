@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Navbar } from '../components/Navbar';
 import { Stepper } from '../components/Stepper';
@@ -63,6 +63,26 @@ export const AssessmentPage: React.FC = () => {
     },
     consentAgreed: false,
   });
+
+  // Pick up any symptoms dictated from Homepage hero
+  useEffect(() => {
+    try {
+      const heroSymptoms = sessionStorage.getItem('meditriage_hero_symptoms');
+      if (heroSymptoms) {
+        sessionStorage.removeItem('meditriage_hero_symptoms');
+        setFormData((prev) => ({
+          ...prev,
+          symptoms: {
+            ...prev.symptoms,
+            additionalDetails: heroSymptoms,
+            otherSymptomsText: heroSymptoms,
+          }
+        }));
+      }
+    } catch {
+      // quiet
+    }
+  }, []);
 
   const handlePatientChange = (updates: Partial<AssessmentFormData['patient']>) => {
     setFormData((prev) => ({ ...prev, patient: { ...prev.patient, ...updates } }));

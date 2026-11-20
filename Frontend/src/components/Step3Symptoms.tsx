@@ -5,7 +5,9 @@ import {
   X,
   AlertTriangle,
   Mic,
-  RotateCcw
+  RotateCcw,
+  Check,
+  Edit3
 } from 'lucide-react';
 
 interface Step3Props {
@@ -59,29 +61,29 @@ export const Step3Symptoms: React.FC<Step3Props> = ({
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Speech Recognition State
-  const [voiceStatus, setVoiceStatus] = useState<
-    'idle' | 'listening' | 'speech-detected' | 'permission-denied' | 'unsupported'
-  >('idle');
+  // Explicit 8-state voice intake management
+  type VoiceState =
+    | 'idle'
+    | 'permission_requested'
+    | 'recording'
+    | 'processing'
+    | 'transcription_available'
+    | 'editing_transcript'
+    | 'submission'
+    | 'error_retry';
+
+  const [voiceState, setVoiceState] = useState<VoiceState>('idle');
   const [voiceError, setVoiceError] = useState<string | null>(null);
-  const [liveTranscript, setLiveTranscript] = useState('');
+  const [editableTranscript, setEditableTranscript] = useState(data.additionalDetails || '');
   const recognitionRef = useRef<any>(null);
 
-  // Check speech recognition capability on mount
   useEffect(() => {
-    const SpeechRecognition =
-      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-
-    if (!SpeechRecognition) {
-      setVoiceStatus('unsupported');
-    }
-
     return () => {
       if (recognitionRef.current) {
         try {
           recognitionRef.current.abort();
         } catch {
-          // ignore cleanup abort errors
+          // ignore
         }
       }
     };
@@ -92,8 +94,8 @@ export const Step3Symptoms: React.FC<Step3Props> = ({
       (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
 
     if (!SpeechRecognition) {
-      setVoiceStatus('unsupported');
-      setVoiceError('Voice input is not supported by your current browser. Please use Chrome, Edge, or Safari.');
+      setVoiceState('error_retry');
+      setVoiceError('Speech recognition is not supported in this browser. Please use Chrome, Safari, or Edge.');
       return;
     }
 
@@ -102,17 +104,20 @@ export const Step3Symptoms: React.FC<Step3Props> = ({
         recognitionRef.current.abort();
       }
 
+      setVoiceState('permission_requested');
+      setVoiceError(null);
+
       const recognition = new SpeechRecognition();
       recognition.continuous = true;
       recognition.interimResults = true;
       recognition.lang = 'en-US';
 
       recognition.onstart = () => {
-        setVoiceStatus('listening');
-        setVoiceError(null);
+        setVoiceState('recording');
       };
 
       recognition.onresult = (event: any) => {
+        setVoiceState('recording');
         let interimText = '';
         let finalText = '';
 
@@ -127,80 +132,82 @@ export const Step3Symptoms: React.FC<Step3Props> = ({
 
         const combined = (finalText || interimText).trim();
         if (combined) {
-          setVoiceStatus('speech-detected');
-          setLiveTranscript(combined);
-
-          // Auto-detect and match recognized symptoms from voice input
-          const lower = combined.toLowerCase();
-          const current = new Set(data.selectedSymptoms || []);
-          let detectedNew = false;
-
-          Object.entries(SYMPTOM_KEYWORD_MAP).forEach(([symptomName, keywords]) => {
-            if (keywords.some((kw) => lower.includes(kw))) {
-              if (!current.has(symptomName)) {
-                current.add(symptomName);
-                detectedNew = true;
-              }
-            }
+          setEditableTranscript((prev) => {
+            const base = prev.trim() ? prev.trim() + ' ' : '';
+            return finalText ? base + finalText : (prev ? prev : interimText);
           });
-
-          // Append to additional details if final
-          if (finalText) {
-            const existingDetails = data.additionalDetails ? data.additionalDetails.trim() + ' ' : '';
-            onChange({
-              selectedSymptoms: Array.from(current),
-              additionalDetails: (existingDetails + finalText).trim()
-            });
-          } else if (detectedNew) {
-            onChange({
-              selectedSymptoms: Array.from(current)
-            });
-          }
         }
       };
 
       recognition.onerror = (event: any) => {
         if (event.error === 'not-allowed') {
-          setVoiceStatus('permission-denied');
-          setVoiceError('Microphone permission was denied. Please allow microphone access in your browser settings to speak.');
+          setVoiceError('Microphone access was denied. Please allow microphone permissions in your browser.');
         } else if (event.error === 'no-speech') {
-          setVoiceError('No speech was detected. Tap retry and speak clearly near the microphone.');
-          setVoiceStatus('idle');
+          setVoiceError('No speech detected. Please speak clearly into your microphone and try again.');
         } else {
-          setVoiceError(`Audio recognition error: ${event.error}. Please retry or type below.`);
-          setVoiceStatus('idle');
+          setVoiceError(`Audio intake error: ${event.error}`);
         }
+        setVoiceState('error_retry');
       };
 
       recognition.onend = () => {
-        if (voiceStatus === 'listening' || voiceStatus === 'speech-detected') {
-          setVoiceStatus('idle');
-        }
+        setVoiceState((prev) => (prev === 'recording' ? 'transcription_available' : prev));
       };
 
       recognitionRef.current = recognition;
       recognition.start();
     } catch (err: any) {
-      setVoiceStatus('idle');
-      setVoiceError(err?.message || 'Unable to start speech recognition.');
+      setVoiceState('error_retry');
+      setVoiceError(err?.message || 'Unable to access microphone.');
     }
   };
 
   const stopVoiceInput = () => {
+    setVoiceState('processing');
     if (recognitionRef.current) {
       try {
         recognitionRef.current.stop();
       } catch {
-        // ignore stop errors
+        // ignore
       }
-      setVoiceStatus('idle');
     }
+    setTimeout(() => {
+      setVoiceState('transcription_available');
+    }, 300);
+  };
+
+  // User applies edited transcript into symptoms and auto-tags keywords
+  const applyTranscript = () => {
+    setVoiceState('submission');
+    const text = editableTranscript.trim();
+    if (!text) {
+      setVoiceState('idle');
+      return;
+    }
+
+    const lower = text.toLowerCase();
+    const current = new Set(data.selectedSymptoms || []);
+
+    Object.entries(SYMPTOM_KEYWORD_MAP).forEach(([symptomName, keywords]) => {
+      if (keywords.some((kw) => lower.includes(kw))) {
+        current.add(symptomName);
+      }
+    });
+
+    onChange({
+      selectedSymptoms: Array.from(current),
+      additionalDetails: text
+    });
+
+    setTimeout(() => {
+      setVoiceState('idle');
+    }, 500);
   };
 
   const clearVoiceInput = () => {
-    setLiveTranscript('');
+    setEditableTranscript('');
     setVoiceError(null);
-    setVoiceStatus('idle');
+    setVoiceState('idle');
   };
 
   const filteredSymptoms = COMMON_SYMPTOMS.filter((s) =>
@@ -228,14 +235,14 @@ export const Step3Symptoms: React.FC<Step3Props> = ({
   const isValid = data.selectedSymptoms.length > 0;
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 py-4 animate-in fade-in duration-300">
+    <div className="w-full max-w-4xl mx-auto px-4 py-4">
       {/* Editorial Header */}
       <div className="mb-6 text-center sm:text-left">
         <h1 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-charcoal-950 leading-tight">
           Symptoms and Duration
         </h1>
         <p className="text-sm text-charcoal-600 mt-2">
-          Select or describe the primary symptoms you are currently experiencing.
+          Describe what you are experiencing. You can type or use your microphone to dictate.
         </p>
       </div>
 
@@ -245,21 +252,21 @@ export const Step3Symptoms: React.FC<Step3Props> = ({
           <AlertTriangle className="w-5 h-5 text-triage-red shrink-0 mt-0.5" />
           <div className="text-xs">
             <span className="font-bold text-triage-red block mb-0.5">
-              Urgent Clinical Alert: Potential High-Acuity Indicator
+              Urgent Clinical Alert: High-Acuity Indicator Reported
             </span>
-            You have reported symptoms (such as Chest Pain or Breathing Difficulty) that require prompt clinical evaluation. If you are experiencing crushing chest tightness, severe shortness of breath, or collapse, proceed immediately to the nearest Emergency Room or activate emergency services (108).
+            You have selected symptoms (such as Chest Pain or Breathing Difficulty) that require immediate clinical evaluation. If you are experiencing severe crushing pain or acute shortness of breath, please call 108 or proceed to the nearest emergency department right away.
           </div>
         </div>
       )}
 
       {/* ========================================================= */}
-      {/* VOICE INTAKE CONSOLE (Apple Health Inspired) */}
+      {/* VOICE INTAKE CONSOLE (8 Dedicated States)                */}
       {/* ========================================================= */}
       <div className="mb-6 bg-white border border-charcoal-200 rounded-2xl p-4 sm:p-5 shadow-subtle">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3 border-b border-charcoal-100">
           <div className="flex items-center gap-2.5">
             <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-              voiceStatus === 'listening' || voiceStatus === 'speech-detected'
+              voiceState === 'recording'
                 ? 'bg-triage-red text-white'
                 : 'bg-forest-50 text-forest-800'
             }`}>
@@ -267,42 +274,48 @@ export const Step3Symptoms: React.FC<Step3Props> = ({
             </div>
             <div>
               <span className="text-xs font-semibold text-charcoal-900 block">
-                Hands-Free Voice Symptom Intake
+                Speech-to-Text Symptom Intake
               </span>
               <span className="text-[11px] text-charcoal-500">
-                Speak symptoms naturally (e.g., &quot;I have fever, severe cough, and chest discomfort&quot;)
+                {voiceState === 'permission_requested' && 'Requesting browser microphone access...'}
+                {voiceState === 'recording' && 'Microphone active • Speak your symptoms clearly'}
+                {voiceState === 'processing' && 'Processing your speech tokens...'}
+                {voiceState === 'transcription_available' && 'Transcription available. Review and edit below.'}
+                {voiceState === 'editing_transcript' && 'Editing your transcribed symptoms.'}
+                {voiceState === 'submission' && 'Applying symptoms to your intake record...'}
+                {voiceState === 'error_retry' && 'Microphone error. Check permissions or retry.'}
+                {voiceState === 'idle' && 'Click to dictate your symptoms and medical problem.'}
               </span>
             </div>
           </div>
 
-          {/* Voice Action Controls */}
+          {/* Action Buttons */}
           <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
-            {voiceStatus === 'listening' || voiceStatus === 'speech-detected' ? (
+            {voiceState === 'recording' ? (
               <button
                 type="button"
                 onClick={stopVoiceInput}
-                className="px-3.5 py-1.5 rounded-full bg-triage-red hover:bg-red-700 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors"
+                className="px-4 py-1.5 rounded-full bg-triage-red hover:bg-red-700 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors"
               >
                 <span className="w-2 h-2 rounded-full bg-white" />
-                <span>Stop Listening</span>
+                <span>Stop Dictating</span>
               </button>
             ) : (
               <button
                 type="button"
                 onClick={startVoiceInput}
-                disabled={voiceStatus === 'unsupported'}
-                className="px-4 py-1.5 rounded-full bg-forest-800 hover:bg-forest-900 text-ivory-50 text-xs font-semibold flex items-center gap-1.5 shadow-xs transition-colors disabled:opacity-50"
+                className="px-4 py-1.5 rounded-full bg-forest-800 hover:bg-forest-900 text-ivory-50 text-xs font-medium flex items-center gap-1.5 shadow-xs transition-colors"
               >
                 <Mic className="w-3.5 h-3.5" />
-                <span>Speak Symptoms</span>
+                <span>{voiceState === 'error_retry' ? 'Retry Microphone' : 'Speak Symptoms'}</span>
               </button>
             )}
 
-            {liveTranscript && (
+            {editableTranscript && (
               <button
                 type="button"
                 onClick={clearVoiceInput}
-                className="px-2.5 py-1.5 rounded-full border border-charcoal-200 text-charcoal-600 hover:text-charcoal-900 hover:bg-charcoal-50 text-xs transition-colors"
+                className="px-2.5 py-1.5 rounded-full border border-charcoal-200 text-charcoal-600 hover:text-charcoal-900 hover:bg-ivory-100 text-xs transition-colors"
                 title="Clear spoken text"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
@@ -311,51 +324,56 @@ export const Step3Symptoms: React.FC<Step3Props> = ({
           </div>
         </div>
 
-        {/* Live Audio / Status Feedback */}
-        {voiceStatus === 'listening' && (
-          <div className="pt-3 flex items-center gap-2 text-xs text-forest-800 animate-fade-in">
-            <span className="w-2 h-2 rounded-full bg-forest-700" />
-            <span>Listening for spoken symptoms... Speak clearly into your device microphone.</span>
-          </div>
-        )}
+        {/* Editable Transcript Console (Phases 5.3 & 5.4: User can edit or correct) */}
+        {(voiceState === 'recording' || editableTranscript) && (
+          <div className="mt-3 p-3.5 rounded-xl bg-ivory-50 border border-charcoal-200 space-y-2">
+            <div className="flex items-center justify-between text-[11px] font-medium text-charcoal-500">
+              <span className="flex items-center gap-1.5">
+                <Edit3 className="w-3 h-3 text-forest-700" />
+                <span>Editable Voice Transcript:</span>
+              </span>
+              <span>You may edit or add to this text before applying</span>
+            </div>
 
-        {/* Spoken Words as Editable Text Output */}
-        {liveTranscript && (
-          <div className="mt-3 p-3 rounded-xl bg-ivory-50 border border-charcoal-200 animate-fade-in">
-            <span className="text-[10px] uppercase font-bold tracking-wider text-charcoal-500 block mb-1">
-              Transcribed Voice Input (Editable):
-            </span>
-            <input
-              type="text"
-              value={liveTranscript}
+            <textarea
+              rows={2}
+              value={editableTranscript}
+              onFocus={() => setVoiceState('editing_transcript')}
               onChange={(e) => {
-                setLiveTranscript(e.target.value);
-                // Also update additional details
-                onChange({ additionalDetails: e.target.value });
+                setEditableTranscript(e.target.value);
+                setVoiceState('editing_transcript');
               }}
-              className="w-full bg-transparent text-xs text-charcoal-900 font-medium focus:outline-none"
-              placeholder="Spoken words appear here..."
+              placeholder="Your spoken words will appear here in real time..."
+              className="w-full bg-white border border-charcoal-200 rounded-lg p-2.5 text-xs text-charcoal-900 font-sans focus:outline-none focus:ring-1 focus:ring-forest-800"
             />
+
+            <div className="flex items-center justify-between pt-1">
+              <span className="text-[10px] text-charcoal-400">
+                Tip: Mention symptoms like fever, cough, chest pressure, headache, or nausea.
+              </span>
+              <button
+                type="button"
+                onClick={applyTranscript}
+                className="px-3 py-1 rounded-lg bg-forest-800 text-ivory-50 hover:bg-forest-900 text-xs font-semibold flex items-center gap-1 transition-colors"
+              >
+                <Check className="w-3.5 h-3.5" />
+                <span>Apply to Assessment</span>
+              </button>
+            </div>
           </div>
         )}
 
-        {/* Error / Permission State Display */}
+        {/* Error Notice */}
         {voiceError && (
-          <div className="mt-3 p-3 rounded-xl bg-triage-red-light border border-triage-red-border text-xs text-triage-red flex items-start justify-between gap-2">
+          <div className="mt-3 p-3 rounded-xl bg-triage-red-light border border-triage-red-border text-xs text-triage-red flex items-center justify-between gap-2">
             <span>{voiceError}</span>
             <button
               type="button"
               onClick={startVoiceInput}
               className="underline font-semibold shrink-0"
             >
-              Retry
+              Try Again
             </button>
-          </div>
-        )}
-
-        {voiceStatus === 'unsupported' && (
-          <div className="mt-3 text-xs text-charcoal-500">
-            Voice input is not supported in this browser. You can type and select your symptoms below.
           </div>
         )}
       </div>
@@ -363,7 +381,7 @@ export const Step3Symptoms: React.FC<Step3Props> = ({
       {/* Main Grid: Left Selection + Right Summary */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
-        {/* Left Column: Symptom Picker & Duration (7 cols) */}
+        {/* Left Column (7 cols): Picklist and Duration */}
         <div className="lg:col-span-7 space-y-6">
           <div className="bg-white border border-charcoal-200 rounded-2xl p-5 shadow-apple">
             
@@ -374,7 +392,7 @@ export const Step3Symptoms: React.FC<Step3Props> = ({
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search symptoms (e.g., fever, cough, chest pain...)"
+                placeholder="Search symptom picklist (e.g. fever, cough, chest pain...)"
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-charcoal-200 bg-ivory-50 text-charcoal-900 placeholder:text-charcoal-400 text-sm focus:outline-none focus:ring-2 focus:ring-forest-800/20 focus:border-forest-800"
               />
             </div>
@@ -382,7 +400,7 @@ export const Step3Symptoms: React.FC<Step3Props> = ({
             {/* Chips Grid */}
             <div className="mb-2">
               <span className="text-[11px] font-bold text-charcoal-500 tracking-wider uppercase block mb-3">
-                Common Symptoms
+                Standard Clinical Symptoms
               </span>
               <div className="flex flex-wrap gap-2">
                 {filteredSymptoms.map((symptom) => {
@@ -405,7 +423,7 @@ export const Step3Symptoms: React.FC<Step3Props> = ({
               </div>
             </div>
 
-            {/* If Other selected, reveal text input */}
+            {/* Other Symptoms Field */}
             {data.selectedSymptoms.includes('Other') && (
               <div className="mt-4 pt-3 border-t border-charcoal-100">
                 <label className="text-xs font-semibold text-charcoal-700 block mb-1.5">
@@ -415,7 +433,7 @@ export const Step3Symptoms: React.FC<Step3Props> = ({
                   type="text"
                   value={data.otherSymptomsText}
                   onChange={(e) => onChange({ otherSymptomsText: e.target.value })}
-                  placeholder="Specify any additional symptoms or sensations..."
+                  placeholder="Specify any additional sensations or symptoms..."
                   className="w-full px-3 py-2 rounded-xl border border-charcoal-200 bg-ivory-50 text-charcoal-900 text-xs focus:outline-none focus:ring-2 focus:ring-forest-800/20 focus:border-forest-800"
                 />
               </div>
@@ -460,7 +478,7 @@ export const Step3Symptoms: React.FC<Step3Props> = ({
           </div>
         </div>
 
-        {/* Right Column: Selected list, Severity & Details (5 cols) */}
+        {/* Right Column (5 cols): Selected List and Severity */}
         <div className="lg:col-span-5 space-y-6">
           <div className="bg-white border border-charcoal-200 rounded-2xl p-5 shadow-apple space-y-5">
             
@@ -535,10 +553,10 @@ export const Step3Symptoms: React.FC<Step3Props> = ({
               </div>
             </div>
 
-            {/* Additional Details Textarea */}
+            {/* Additional Clinical Notes */}
             <div>
               <label className="text-[11px] font-bold text-charcoal-500 tracking-wider uppercase block mb-2">
-                Clinical Context & Notes (optional)
+                Clinical Context & Onset Notes (optional)
               </label>
               <textarea
                 rows={3}
